@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PackSense - Step 2: Product Data Selection</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary": "#ffffff",
+            "on-surface-variant": "#414844",
+            "on-surface": "#191c1b",
+            "surface-container-low": "#f2f4f1",
+            "background": "#f8faf7",
+            "on-tertiary-container": "#d49c2b",
+            "surface-container-lowest": "#ffffff",
+            "inverse-surface": "#2e312f",
+            "surface-container": "#eceeeb",
+            "surface-dim": "#d8dbd8",
+            "outline": "#717973",
+            "inverse-on-surface": "#eff1ee",
+            "primary-container": "#1b4332",
+            "on-background": "#191c1b",
+            "surface-container-high": "#e7e9e6",
+            "on-primary-container": "#86af99",
+            "on-tertiary-fixed-variant": "#5e4100",
+            "outline-variant": "#c1c8c2",
+            "on-tertiary": "#ffffff",
+            "secondary": "#116c4a",
+            "primary": "#012d1d",
+            "on-tertiary-fixed": "#271900",
+            "error-container": "#ffdad6",
+            "on-secondary-fixed": "#002113",
+            "surface-bright": "#f8faf7",
+            "tertiary": "#342300",
+            "primary-fixed-dim": "#a5d0b9",
+            "surface": "#f8faf7",
+            "secondary-fixed": "#a1f4c8",
+            "on-secondary-fixed-variant": "#005236",
+            "secondary-fixed-dim": "#86d7ad",
+            "on-error-container": "#93000a",
+            "surface-tint": "#3f6653",
+            "inverse-primary": "#a5d0b9",
+            "tertiary-fixed-dim": "#f8bc49",
+            "on-primary-fixed": "#002114",
+            "on-secondary-container": "#1b724f",
+            "surface-variant": "#e1e3e0",
+            "tertiary-fixed": "#ffdea9",
+            "on-error": "#ffffff",
+            "surface-container-highest": "#e1e3e0",
+            "secondary-container": "#a1f4c8",
+            "primary-fixed": "#c1ecd4",
+            "on-primary": "#ffffff",
+            "on-primary-fixed-variant": "#274e3d",
+            "error": "#ba1a1a",
+            "tertiary-container": "#503700"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-lg": "1.5rem",
+            "space-md": "1rem",
+            "gutter": "1rem",
+            "margin": "1.25rem",
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2rem"
+          },
+          "fontFamily": {
+            "label-md": ["Plus Jakarta Sans"],
+            "title-lg": ["Plus Jakarta Sans"],
+            "label-lg": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "title-lg": ["16px", { "lineHeight": "22px", "fontWeight": "600" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-lg-mobile": ["26px", { "lineHeight": "34px", "fontWeight": "700" }],
+            "title-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .organic-card-shadow {
+      box-shadow: 0px 2px 8px rgba(27, 67, 50, 0.04);
+    }
+    .organic-card-active-shadow {
+      box-shadow: 0px 8px 24px rgba(27, 67, 50, 0.08);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex justify-center selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Mobile Viewport Shell (Android Flutter Frame) -->
+<main class="w-full max-w-md bg-background min-h-screen flex flex-col relative pb-8">
+<!-- Top Bar Component (Consistent with TopAppBar anchor) -->
+<header class="bg-surface sticky top-0 z-40 w-full px-5 pt-3 pb-2">
+<div class="flex justify-between items-center w-full min-h-[48px]">
+<button aria-label="Go back to previous step" class="w-10 h-10 -ml-2 rounded-full flex items-center justify-center text-primary hover:bg-surface-container active:scale-95 transition-transform duration-150 ease-in-out" type="button">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<span class="font-label-lg text-label-lg text-primary font-bold tracking-tight">PackSense</span>
+<button aria-label="Help and guidance" class="w-10 h-10 -mr-2 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container active:scale-95 transition-transform duration-150 ease-in-out" type="button">
+<span class="material-symbols-outlined text-[22px]">help_outline</span>
+</button>
+</div>
+<!-- Segmented Step & Progress Indicator -->
+<div class="mt-2 pb-2">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm text-secondary font-semibold tracking-wider">STEP 2 OF 4</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">50% Completed</span>
+</div>
+<!-- 4-Segment Progress Bar -->
+<div class="grid grid-cols-4 gap-1.5 w-full h-1.5">
+<div class="bg-primary-container rounded-full h-full"></div>
+<div class="bg-primary-container rounded-full h-full"></div>
+<div class="bg-surface-variant rounded-full h-full"></div>
+<div class="bg-surface-variant rounded-full h-full"></div>
+</div>
+</div>
+</header>
+<!-- Main Content Flow -->
+<div class="px-5 pt-2 flex flex-col flex-1">
+<!-- Selected Food Summary Pill -->
+<div class="inline-flex items-center self-start gap-2 px-3 py-1.5 bg-surface-container-lowest border border-outline-variant/60 rounded-full organic-card-shadow mb-4">
+<span aria-label="Tomato" class="text-base leading-none" role="img">🍅</span>
+<span class="font-title-md text-title-md text-primary font-semibold">Tomato</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Solanum lycopersicum</span>
+</div>
+<!-- Title & Context Guidance -->
+<div class="mb-6">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight font-bold mb-2">
+          Do you have product data?
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          PackSense can use your lab measurements or estimate properties automatically based on Tomato physiology.
+        </p>
+</div>
+<!-- Balanced Decision Cards Grid -->
+<div class="space-y-4 mb-6">
+<!-- CARD 1: Measured Data -->
+<div class="group relative bg-surface-container-lowest border border-outline-variant/70 rounded-xl p-5 organic-card-shadow transition-all duration-200 hover:border-secondary hover:organic-card-active-shadow flex flex-col justify-between">
+<div>
+<!-- Epistemic Badge: Measured Data Tag -->
+<div class="flex items-center justify-between mb-3">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#D8F3DC] border border-[#B7E4C7]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#2D6A4F]"></span>
+<span class="font-label-sm text-label-sm text-[#2D6A4F] font-bold tracking-wider uppercase">Measured</span>
+</div>
+<span class="material-symbols-outlined text-outline text-[20px] group-hover:text-secondary transition-colors">biotech</span>
+</div>
+<!-- Content -->
+<h2 class="font-title-lg text-title-lg text-primary tracking-wide mb-1.5 uppercase font-bold">
+              I HAVE MEASURED DATA
+            </h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-5">
+              I know values such as moisture, pH, fat/oil content or respiration rate.
+            </p>
+</div>
+<!-- CTA Button -->
+<button class="w-full min-h-[52px] px-6 rounded-full bg-surface-container-low border border-outline-variant text-primary font-label-lg text-label-lg flex items-center justify-center gap-2 hover:bg-surface-variant active:scale-[0.98] transition-all duration-150 ease-in-out font-bold" type="button">
+<span>Enter My Data</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<!-- CARD 2: AI Estimated Data -->
+<div class="group relative bg-surface-container-lowest border-2 border-primary-container rounded-xl p-5 organic-card-shadow transition-all duration-200 hover:organic-card-active-shadow flex flex-col justify-between">
+<div>
+<!-- Epistemic Badge: AI Estimated Tag -->
+<div class="flex items-center justify-between mb-3">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FFF3CD] border border-[#FFE69C]">
+<span class="w-1.5 h-1.5 rounded-full bg-[#B07D00]"></span>
+<span class="font-label-sm text-label-sm text-[#B07D00] font-bold tracking-wider uppercase">AI Estimated</span>
+</div>
+<span class="material-symbols-outlined text-outline text-[20px] group-hover:text-primary-container transition-colors">auto_awesome</span>
+</div>
+<!-- Content -->
+<h2 class="font-title-lg text-title-lg text-primary tracking-wide mb-1.5 uppercase font-bold">
+              I DON'T HAVE MEASUREMENTS
+            </h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed mb-5">
+              I don't know the product properties. Let PackSense estimate them from food commodity science.
+            </p>
+</div>
+<!-- CTA Button -->
+<button class="w-full min-h-[52px] px-6 rounded-full bg-primary-container text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-[0_4px_12px_rgba(27,67,50,0.25)] hover:bg-primary active:scale-[0.98] transition-all duration-150 ease-in-out font-bold" type="button">
+<span>Estimate for Me</span>
+<span class="material-symbols-outlined text-[18px]">psychology</span>
+</button>
+</div>
+</div>
+<!-- Expandable Helper Accordion: "Why do we ask?" -->
+<div class="mt-auto pt-2">
+<details class="group bg-surface-container-low border border-outline-variant/60 rounded-xl overflow-hidden transition-all duration-200">
+<summary class="flex items-center justify-between p-4 cursor-pointer select-none min-h-[48px] focus:outline-none">
+<div class="flex items-center gap-2 text-primary font-title-md text-title-md">
+<span class="material-symbols-outlined text-secondary text-[20px]">info</span>
+<span>Why do we ask?</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] transition-transform duration-200 group-open:rotate-180">
+              keyboard_arrow_down
+            </span>
+</summary>
+<div class="px-4 pb-4 pt-1 border-t border-outline-variant/30">
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              These properties help PackSense calculate precise moisture (WVTR), oxygen (OTR), and gas-exchange requirements.
+            </p>
+<div class="mt-3 flex items-center gap-3 pt-2 border-t border-outline-variant/20">
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>ISO 15106 compliant models</span>
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</main>
+</body></html>

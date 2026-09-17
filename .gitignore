@@ -1,0 +1,63 @@
+# Environment & Secrets (NEVER COMMIT)
+.env
+.env.*
+*.env
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+*secret*
+*credential*
+*.pem
+*.key
+*.token
+supabase_key*
+*service_role*
+
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Visual Studio Code related
+.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+
+# Python backend (future)
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# Symbol specification files
+app.*.symbols
+
+# Archive documents
+*.tar
+*.tar.gz
+*.zip

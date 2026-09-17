@@ -1,0 +1,440 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>PackSense - Your Packaging Match</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary": "#ffffff",
+            "on-surface-variant": "#414844",
+            "on-surface": "#191c1b",
+            "surface-container-low": "#f2f4f1",
+            "background": "#f8faf7",
+            "on-tertiary-container": "#d49c2b",
+            "surface-container-lowest": "#ffffff",
+            "inverse-surface": "#2e312f",
+            "surface-container": "#eceeeb",
+            "surface-dim": "#d8dbd8",
+            "outline": "#717973",
+            "inverse-on-surface": "#eff1ee",
+            "primary-container": "#1b4332",
+            "on-background": "#191c1b",
+            "surface-container-high": "#e7e9e6",
+            "on-primary-container": "#86af99",
+            "on-tertiary-fixed-variant": "#5e4100",
+            "outline-variant": "#c1c8c2",
+            "on-tertiary": "#ffffff",
+            "secondary": "#116c4a",
+            "primary": "#012d1d",
+            "on-tertiary-fixed": "#271900",
+            "error-container": "#ffdad6",
+            "on-secondary-fixed": "#002113",
+            "surface-bright": "#f8faf7",
+            "tertiary": "#342300",
+            "primary-fixed-dim": "#a5d0b9",
+            "surface": "#f8faf7",
+            "secondary-fixed": "#a1f4c8",
+            "on-secondary-fixed-variant": "#005236",
+            "secondary-fixed-dim": "#86d7ad",
+            "on-error-container": "#93000a",
+            "surface-tint": "#3f6653",
+            "inverse-primary": "#a5d0b9",
+            "tertiary-fixed-dim": "#f8bc49",
+            "on-primary-fixed": "#002114",
+            "on-secondary-container": "#1b724f",
+            "surface-variant": "#e1e3e0",
+            "tertiary-fixed": "#ffdea9",
+            "on-error": "#ffffff",
+            "surface-container-highest": "#e1e3e0",
+            "secondary-container": "#a1f4c8",
+            "primary-fixed": "#c1ecd4",
+            "on-primary": "#ffffff",
+            "on-primary-fixed-variant": "#274e3d",
+            "error": "#ba1a1a",
+            "tertiary-container": "#503700"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-lg": "1.5rem",
+            "space-md": "1rem",
+            "gutter": "1rem",
+            "margin": "1.25rem",
+            "space-sm": "0.5rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2rem"
+          },
+          "fontFamily": {
+            "label-md": ["Plus Jakarta Sans"],
+            "title-lg": ["Plus Jakarta Sans"],
+            "label-lg": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+            "title-lg": ["16px", {"lineHeight": "22px", "fontWeight": "600"}],
+            "label-lg": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+            "headline-lg-mobile": ["26px", {"lineHeight": "34px", "fontWeight": "700"}],
+            "title-md": ["14px", {"lineHeight": "20px", "fontWeight": "600"}],
+            "headline-md": ["22px", {"lineHeight": "28px", "fontWeight": "600"}],
+            "body-sm": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+            "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+            "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+            "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "600"}],
+            "body-md": ["14px", {"lineHeight": "22px", "fontWeight": "400"}],
+            "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+    }
+    .custom-shadow-card {
+      box-shadow: 0px 2px 8px rgba(27, 67, 50, 0.04);
+    }
+    .custom-shadow-sticky {
+      box-shadow: 0px -4px 16px rgba(27, 67, 50, 0.06);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex justify-center selection:bg-secondary-container">
+<!-- Mobile Screen Frame (Android standard max-w-md viewport emulation) -->
+<div class="w-full max-w-md bg-surface min-h-screen flex flex-col relative pb-32">
+<!-- Top App Bar (Shared Component Anchor Pattern - Executing JSON Styles) -->
+<header class="sticky top-0 z-40 bg-surface border-b border-outline-variant">
+<div class="flex justify-between items-center w-full px-5 py-3 max-w-md mx-auto">
+<!-- Leading Action -->
+<button aria-label="Back" class="w-10 h-10 -ml-2 rounded-full flex items-center justify-center text-primary hover:bg-surface-container active:scale-95 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<!-- Brand Headline Anchor -->
+<div class="flex items-center space-x-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+<span class="text-headline-sm font-headline-sm font-semibold text-primary tracking-tight">PackSense</span>
+</div>
+<!-- Trailing Actions: Share / Help -->
+<div class="flex items-center space-x-1">
+<button aria-label="Share" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container active:scale-95 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined">share</span>
+</button>
+<button aria-label="Help" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-container active:scale-95 transition-transform duration-150" type="button">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Scrollable Content -->
+<main class="flex-1 px-5 pt-4 space-y-5">
+<!-- Selected Context Pill -->
+<div class="flex items-center justify-between bg-surface-container-low border border-outline-variant px-3.5 py-2 rounded-full">
+<div class="flex items-center space-x-2 text-on-surface text-label-md font-label-md overflow-hidden text-ellipsis whitespace-nowrap">
+<span class="text-base leading-none">🍅</span>
+<span class="font-semibold text-primary">Fresh Tomato</span>
+<span class="text-outline text-xs">•</span>
+<span class="text-on-surface-variant">Chilled (10°C)</span>
+<span class="text-outline text-xs">•</span>
+<span class="text-on-surface-variant">7d Target</span>
+</div>
+<button aria-label="Edit food parameter context" class="ml-1 text-secondary flex items-center hover:opacity-80 active:scale-95 transition-transform" type="button">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+</button>
+</div>
+<!-- Main Hero Card: Packaging Match -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 custom-shadow-card relative overflow-hidden">
+<!-- Top Status Tier -->
+<div class="flex items-center justify-between mb-3">
+<span class="text-label-md font-label-md text-secondary uppercase tracking-wider font-bold">
+            Recommended Packaging
+          </span>
+<div class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-secondary-container text-primary font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px] mr-1" style="font-variation-settings: 'FILL' 1;">verified</span>
+            Strong Match
+          </div>
+</div>
+<!-- Material Name & Packaging Icon Badge -->
+<div class="flex items-start justify-between gap-3 mb-4">
+<div>
+<h1 class="text-headline-lg-mobile font-headline-lg-mobile text-primary tracking-tight leading-tight">
+              Breathable / Micro-Perforated Film
+            </h1>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">
+              Precision gas transmission matrix tailored for high-respiration produce.
+            </p>
+</div>
+<div class="w-14 h-14 shrink-0 rounded-xl bg-surface-container flex flex-col items-center justify-center border border-outline-variant text-secondary">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">layers</span>
+<span class="text-[9px] font-label-sm font-bold mt-0.5 text-primary tracking-tighter">BOPP/LDPE</span>
+</div>
+</div>
+<!-- Data Provenance / Epistemic Ground-Truth Pill -->
+<div class="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary-container/40 border border-outline-variant mb-4">
+<span class="w-2 h-2 rounded-full bg-secondary mr-2 animate-pulse"></span>
+<span class="text-label-sm font-label-sm text-primary font-bold tracking-wide">
+            BASED ON MEASURED DATA
+          </span>
+</div>
+<!-- Visual Barrier Transmission Bar Strip -->
+<div class="pt-3 border-t border-surface-container-high grid grid-cols-3 gap-2 text-center">
+<div class="bg-surface-container-low p-2 rounded-lg">
+<span class="block text-[10px] font-label-sm text-outline uppercase font-semibold">O₂ Barrier</span>
+<span class="text-label-md font-label-md text-primary font-bold">Optimized High</span>
+</div>
+<div class="bg-surface-container-low p-2 rounded-lg">
+<span class="block text-[10px] font-label-sm text-outline uppercase font-semibold">Moisture Control</span>
+<span class="text-label-md font-label-md text-primary font-bold">Vapor Safe</span>
+</div>
+<div class="bg-surface-container-low p-2 rounded-lg">
+<span class="block text-[10px] font-label-sm text-outline uppercase font-semibold">Condensation</span>
+<span class="text-label-md font-label-md text-secondary font-bold">Anti-Fog</span>
+</div>
+</div>
+</section>
+<!-- Section: Why this packaging? -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 custom-shadow-card">
+<div class="flex items-center space-x-2 mb-3">
+<span class="material-symbols-outlined text-secondary">psychology_alt</span>
+<h2 class="text-title-lg font-title-lg text-primary">Why this packaging?</h2>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-4 leading-relaxed">
+          PackSense selected this packaging because it supports required moisture transmission while enabling controlled gas exchange for ripe tomatoes.
+        </p>
+<!-- 4 Bullet Tags with Checkmarks -->
+<div class="space-y-2.5"><div class="flex items-start space-x-2.5 p-2.5 rounded-lg bg-surface-container-low/60 border border-outline-variant/60">
+<span class="material-symbols-outlined text-secondary text-lg mt-0.5" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-body-sm font-body-sm text-on-surface">
+<strong class="font-semibold text-primary">Product Compatibility:</strong> Tailored for solid fresh produce (whole tomato) with active respiration.
+</span>
+</div>
+<div class="flex items-start space-x-2.5 p-2.5 rounded-lg bg-surface-container-low/60 border border-outline-variant/60">
+<span class="material-symbols-outlined text-secondary text-lg mt-0.5" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-body-sm font-body-sm text-on-surface">
+<strong class="font-semibold text-primary">Moisture &amp; Condensation:</strong> Balanced WVTR (15–25 g/m²/d) with anti-fog to eliminate internal surface condensation &amp; mold bloom.
+</span>
+</div>
+<div class="flex items-start space-x-2.5 p-2.5 rounded-lg bg-surface-container-low/60 border border-outline-variant/60">
+<span class="material-symbols-outlined text-secondary text-lg mt-0.5" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-body-sm font-body-sm text-on-surface">
+<strong class="font-semibold text-primary">Temperature &amp; Shelf-Life:</strong> Optimized for cold storage (10°C) to reliably maintain 7-day target freshness.
+</span>
+</div>
+<div class="flex items-start space-x-2.5 p-2.5 rounded-lg bg-surface-container-low/60 border border-outline-variant/60">
+<span class="material-symbols-outlined text-secondary text-lg mt-0.5" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-body-sm font-body-sm text-on-surface">
+<strong class="font-semibold text-primary">Durability, Cost &amp; Eco:</strong> Flexible puncture-resistant gauge, moderate unit cost, and fully recyclable PE/PP stream.
+</span>
+</div></div>
+</section>
+<!-- Section: Key Specifications (Bento Grid) -->
+<section class="space-y-3">
+<div class="flex items-center justify-between">
+<h2 class="text-title-lg font-title-lg text-primary">Key Specifications</h2>
+<span class="text-label-sm font-label-sm text-outline">Empirical Benchmarks</span>
+</div>
+<div class="grid grid-cols-2 gap-3"><div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-3.5 custom-shadow-card flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-label-sm font-label-sm text-outline uppercase font-semibold">OTR Barrier</span>
+<span class="material-symbols-outlined text-[16px] text-outline cursor-pointer" title="How easily oxygen passes through">info</span>
+</div>
+<p class="text-headline-sm font-headline-sm text-primary font-bold leading-snug">
+1,200–1,800
+</p>
+<p class="text-[11px] font-label-sm text-on-surface-variant">cc/m²/day OTR</p>
+</div>
+<div class="mt-2.5 pt-2 border-t border-surface-container text-[11px] font-body-sm text-secondary font-medium">
+Targeted produce respiration
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-3.5 custom-shadow-card flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-label-sm font-label-sm text-outline uppercase font-semibold">Moisture &amp; Temp</span>
+<span class="material-symbols-outlined text-[16px] text-outline cursor-pointer" title="Controls condensation and chill tolerance">info</span>
+</div>
+<p class="text-headline-sm font-headline-sm text-primary font-bold leading-snug">
+15–25 <span class="text-xs font-normal">WVTR</span>
+</p>
+<p class="text-[11px] font-label-sm text-on-surface-variant">10°C Chilled Safe</p>
+</div>
+<div class="mt-2.5 pt-2 border-t border-surface-container text-[11px] font-body-sm text-secondary font-medium">
+Anti-fog condensation control
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-3.5 custom-shadow-card flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-label-sm font-label-sm text-outline uppercase font-semibold">Durability</span>
+<span class="material-symbols-outlined text-[16px] text-outline cursor-pointer" title="Film tensile strength">shield</span>
+</div>
+<p class="text-headline-sm font-headline-sm text-primary font-bold leading-snug">
+25–35 <span class="text-xs font-normal">μm</span>
+</p>
+<p class="text-[11px] font-label-sm text-on-surface-variant">High Puncture Resistance</p>
+</div>
+<div class="mt-2.5 pt-2 border-t border-surface-container text-[11px] font-body-sm text-on-surface-variant">
+BOPP / LDPE Blend
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-3.5 custom-shadow-card flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-1">
+<span class="text-label-sm font-label-sm text-outline uppercase font-semibold">Cost &amp; Eco Tier</span>
+<span class="material-symbols-outlined text-[16px] text-outline cursor-pointer" title="Unit cost and recyclability">eco</span>
+</div>
+<p class="text-headline-sm font-headline-sm text-primary font-bold leading-snug">
+Moderate
+</p>
+<p class="text-[11px] font-label-sm text-on-surface-variant">Code 4 (LDPE) Recyclable</p>
+</div>
+<div class="mt-2.5 pt-2 border-t border-surface-container text-[11px] font-body-sm text-secondary flex items-center font-medium">
+<span class="material-symbols-outlined text-[14px] mr-1" style="font-variation-settings: 'FILL' 1;">check</span>
+Balanced ROI
+</div>
+</div></div>
+<!-- Technical Deep Dive Toggle Button -->
+<button class="w-full h-[48px] bg-surface-container-low hover:bg-surface-container border border-outline-variant rounded-xl flex items-center justify-center space-x-2 text-primary font-label-lg text-label-lg transition-colors active:scale-[0.99]" type="button">
+<span class="material-symbols-outlined text-lg text-secondary">analytics</span>
+<span class="">View Technical Details &amp; Comparison</span>
+<span class="material-symbols-outlined text-sm text-outline">chevron_right</span>
+</button>
+</section>
+<!-- Section: Other Options (Alternative Packaging) -->
+<section class="space-y-3 pb-4"><div class="flex items-center justify-between">
+<h2 class="text-title-lg font-title-lg text-primary">Other Options</h2>
+<span class="text-label-sm font-label-sm text-outline">Trade-off Analyses</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 custom-shadow-card hover:border-secondary transition-colors">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center space-x-2">
+<h3 class="text-title-md font-title-md text-primary font-bold">Macro-perforated LDPE</h3>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-label-sm font-semibold">Cost-Effective</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">
+Economical with high tear durability; shorter cold-chain freshness (4–5d) due to higher moisture venting.
+</p>
+</div>
+<div class="text-right shrink-0 ml-3">
+<span class="text-label-sm font-label-sm text-secondary font-bold">-18% Cost</span>
+</div>
+</div>
+<div class="mt-3 pt-2.5 border-t border-surface-container flex items-center justify-between text-[12px] text-outline">
+<span class="flex items-center">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed-variant mr-1.5"></span>
+High Durability • Standard Eco
+</span>
+<button class="text-secondary font-label-md text-label-md font-semibold hover:underline" type="button">
+Compare Spec
+</button>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 custom-shadow-card hover:border-secondary transition-colors">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center space-x-2">
+<h3 class="text-title-md font-title-md text-primary font-bold">Rigid Recycled PET (rPET) Clamshell</h3>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant text-[10px] font-label-sm font-semibold">Max Protection</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">
+Superior crush resistance for bulk retail transit; higher cost index (+22%) with 100% bottle-grade circularity.
+</p>
+</div>
+<div class="text-right shrink-0 ml-3">
+<span class="text-label-sm font-label-sm text-primary font-bold">+22% Cost</span>
+</div>
+</div>
+<div class="mt-3 pt-2.5 border-t border-surface-container flex items-center justify-between text-[12px] text-outline">
+<span class="flex items-center">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1.5"></span>
+Maximum Durability • 100% Recyclable
+</span>
+<button class="text-secondary font-label-md text-label-md font-semibold hover:underline" type="button">
+Compare Spec
+</button>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 custom-shadow-card hover:border-secondary transition-colors">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center space-x-2">
+<h3 class="text-title-md font-title-md text-primary font-bold">Biodegradable PLA / Compostable Film</h3>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/60 text-secondary text-[10px] font-label-sm font-bold">Eco Choice</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">
+Plant-derived starch polymer; 100% industrial compostable with moderate oxygen barrier and gentle handling.
+</p>
+</div>
+<div class="text-right shrink-0 ml-3">
+<span class="text-label-sm font-label-sm text-secondary font-bold">+92 Eco Score</span>
+</div>
+</div>
+<div class="mt-3 pt-2.5 border-t border-surface-container flex items-center justify-between text-[12px] text-outline">
+<span class="flex items-center">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1.5"></span>
+EN 13432 Certified • Moderate Durability
+</span>
+<button class="text-secondary font-label-md text-label-md font-semibold hover:underline" type="button">
+Compare Spec
+</button>
+</div>
+</div></section>
+</main>
+<!-- Bottom Sticky Action Bar (Per Prompt Requirement) -->
+<div class="fixed bottom-0 left-0 w-full z-50 flex justify-center pointer-events-none">
+<div class="w-full max-w-md bg-surface border-t border-outline-variant px-5 py-3 custom-shadow-sticky pointer-events-auto flex items-center space-x-3">
+<!-- Save to History (Secondary / Ghost Button - Style Guidance Compliant) -->
+<button class="h-[52px] px-4 rounded-full bg-surface-container border border-outline-variant text-primary font-label-lg text-label-lg flex items-center justify-center space-x-1.5 active:scale-95 transition-transform shrink-0" type="button">
+<span class="material-symbols-outlined text-xl">bookmark_border</span>
+<span class="whitespace-nowrap">Save to History</span>
+</button>
+<!-- Export PDF Report (Primary Action CTA - Style Guidance Compliant 52px, #40916C) -->
+<button class="flex-1 h-[52px] rounded-full bg-[#40916C] active:bg-primary text-on-secondary font-label-lg text-label-lg flex items-center justify-center space-x-2 shadow-[0_4px_12px_rgba(64,145,108,0.25)] active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-xl">picture_as_pdf</span>
+<span class="font-bold">Export PDF Report</span>
+</button>
+</div>
+</div>
+</div>
+
+
+</body></html>
