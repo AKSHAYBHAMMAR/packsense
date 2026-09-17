@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/widgets/custom_card.dart';
-import '../../data/models/packaging_material.dart';
 import '../../data/repositories/packaging_repository.dart';
 import 'material_details_screen.dart';
 

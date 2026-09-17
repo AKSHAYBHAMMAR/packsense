@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
+import '../../core/widgets/bottom_action_bar.dart';
 import '../../core/widgets/custom_card.dart';
 import '../../core/widgets/epistemic_tag.dart';
 import '../../core/widgets/packsense_button.dart';
