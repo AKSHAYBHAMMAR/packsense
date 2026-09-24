@@ -37,11 +37,16 @@ class EpistemicTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isMeasured = type == EpistemicType.measured;
-    final Color bgColor = isMeasured ? AppColors.measuredBg : AppColors.aiEstimateBg;
-    final Color borderColor = isMeasured ? AppColors.measuredBorder : AppColors.aiEstimateBorder;
-    final Color textColor = isMeasured ? AppColors.measuredText : AppColors.aiEstimateText;
-    final Color dotColor = isMeasured ? AppColors.measuredDot : AppColors.aiEstimateDot;
-    final String label = customLabel ?? (isMeasured ? 'MEASURED' : 'AI ESTIMATE');
+    final Color bgColor =
+        isMeasured ? AppColors.measuredBg : AppColors.aiEstimateBg;
+    final Color borderColor =
+        isMeasured ? AppColors.measuredBorder : AppColors.aiEstimateBorder;
+    final Color textColor =
+        isMeasured ? AppColors.measuredText : AppColors.aiEstimateText;
+    final Color dotColor =
+        isMeasured ? AppColors.measuredDot : AppColors.aiEstimateDot;
+    final String label =
+        customLabel ?? (isMeasured ? 'MEASURED' : 'AI ESTIMATE');
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),

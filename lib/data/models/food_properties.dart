@@ -1,3 +1,5 @@
+import '../data_sources/commodity_local_data.dart';
+
 enum PhysicalState { solid, liquid, semiSolid, powder }
 
 enum StorageTemperature { roomTemp, refrigerated, frozen }
@@ -46,94 +48,43 @@ class FoodProperties {
 
   /// Factory to generate estimated properties for known commodities
   factory FoodProperties.estimateForCommodity(String commodityName) {
-    switch (commodityName.toLowerCase()) {
-      case 'tomato':
-        return const FoodProperties(
-          productName: 'Fresh Tomato',
-          foodCategory: 'Fresh Produce',
-          foodType: 'Whole Fruit / Vine',
-          physicalState: PhysicalState.solid,
-          moisturePercent: 94.5,
-          ph: 4.3,
-          oilFatPercent: 0.2,
-          storageTemperature: StorageTemperature.refrigerated,
-          targetShelfLifeDays: 7,
-          transportationDistance: TransportationDistance.regional,
-          fragility: FragilityLevel.high,
-          sustainabilityPreference: SustainabilityPreference.recyclable,
-          budgetPreference: BudgetTier.moderate,
-          isMeasured: false,
-        );
-      case 'apple':
-        return const FoodProperties(
-          productName: 'Fresh Apple',
-          foodCategory: 'Fresh Produce',
-          foodType: 'Whole Pome Fruit',
-          physicalState: PhysicalState.solid,
-          moisturePercent: 85.6,
-          ph: 3.8,
-          oilFatPercent: 0.1,
-          storageTemperature: StorageTemperature.roomTemp,
-          targetShelfLifeDays: 21,
-          transportationDistance: TransportationDistance.longDistance,
-          fragility: FragilityLevel.medium,
-          sustainabilityPreference: SustainabilityPreference.recyclable,
-          budgetPreference: BudgetTier.moderate,
-          isMeasured: false,
-        );
-      case 'chips & snacks':
-      case 'chips':
-        return const FoodProperties(
-          productName: 'Potato Chips',
-          foodCategory: 'Fried Dry',
-          foodType: 'Crisp Snacks',
-          physicalState: PhysicalState.solid,
-          moisturePercent: 1.5,
-          ph: 6.2,
-          oilFatPercent: 32.0,
-          storageTemperature: StorageTemperature.roomTemp,
-          targetShelfLifeDays: 90,
-          transportationDistance: TransportationDistance.longDistance,
-          fragility: FragilityLevel.high,
-          sustainabilityPreference: SustainabilityPreference.recyclable,
-          budgetPreference: BudgetTier.moderate,
-          isMeasured: false,
-        );
-      case 'biscuits':
-        return const FoodProperties(
-          productName: 'Baked Biscuits',
-          foodCategory: 'Dry Baked',
-          foodType: 'Confectionery',
-          physicalState: PhysicalState.solid,
-          moisturePercent: 3.0,
-          ph: 6.5,
-          oilFatPercent: 14.0,
-          storageTemperature: StorageTemperature.roomTemp,
-          targetShelfLifeDays: 120,
-          transportationDistance: TransportationDistance.longDistance,
-          fragility: FragilityLevel.high,
-          sustainabilityPreference: SustainabilityPreference.recyclable,
-          budgetPreference: BudgetTier.economical,
-          isMeasured: false,
-        );
-      default:
-        return FoodProperties(
-          productName: commodityName,
-          foodCategory: 'General Food',
-          foodType: 'Standard Product',
-          physicalState: PhysicalState.solid,
-          moisturePercent: 60.0,
-          ph: 5.5,
-          oilFatPercent: 5.0,
-          storageTemperature: StorageTemperature.roomTemp,
-          targetShelfLifeDays: 14,
-          transportationDistance: TransportationDistance.regional,
-          fragility: FragilityLevel.medium,
-          sustainabilityPreference: SustainabilityPreference.recyclable,
-          budgetPreference: BudgetTier.moderate,
-          isMeasured: false,
-        );
+    final query = commodityName.trim().toLowerCase();
+
+    // Check if commodity exists in the structured database
+    for (final c in CommodityLocalData.allCommodities) {
+      if (c.name.toLowerCase() == query ||
+          c.displayName.toLowerCase() == query ||
+          c.id.toLowerCase() == query ||
+          c.aliases.any((a) => a.toLowerCase() == query)) {
+        return c.toFoodProperties(isMeasured: false);
+      }
     }
+
+    // Secondary partial matching for broader input
+    for (final c in CommodityLocalData.allCommodities) {
+      if (c.name.toLowerCase().contains(query) ||
+          query.contains(c.name.toLowerCase())) {
+        return c.toFoodProperties(isMeasured: false);
+      }
+    }
+
+    // Safe general fallback if unsupported
+    return FoodProperties(
+      productName: commodityName,
+      foodCategory: 'General Food',
+      foodType: 'Standard Commodity',
+      physicalState: PhysicalState.solid,
+      moisturePercent: 60.0,
+      ph: 5.5,
+      oilFatPercent: 5.0,
+      storageTemperature: StorageTemperature.roomTemp,
+      targetShelfLifeDays: 14,
+      transportationDistance: TransportationDistance.regional,
+      fragility: FragilityLevel.medium,
+      sustainabilityPreference: SustainabilityPreference.recyclable,
+      budgetPreference: BudgetTier.moderate,
+      isMeasured: false,
+    );
   }
 
   FoodProperties copyWith({
@@ -162,9 +113,11 @@ class FoodProperties {
       oilFatPercent: oilFatPercent ?? this.oilFatPercent,
       storageTemperature: storageTemperature ?? this.storageTemperature,
       targetShelfLifeDays: targetShelfLifeDays ?? this.targetShelfLifeDays,
-      transportationDistance: transportationDistance ?? this.transportationDistance,
+      transportationDistance:
+          transportationDistance ?? this.transportationDistance,
       fragility: fragility ?? this.fragility,
-      sustainabilityPreference: sustainabilityPreference ?? this.sustainabilityPreference,
+      sustainabilityPreference:
+          sustainabilityPreference ?? this.sustainabilityPreference,
       budgetPreference: budgetPreference ?? this.budgetPreference,
       isMeasured: isMeasured ?? this.isMeasured,
     );

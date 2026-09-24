@@ -38,7 +38,8 @@ class SegmentedProgressBar extends StatelessWidget {
 }
 
 /// Header for multi-step recommendation flow with back button, step indicator, and progress bar
-class RecommendationFlowHeader extends StatelessWidget implements PreferredSizeWidget {
+class RecommendationFlowHeader extends StatelessWidget
+    implements PreferredSizeWidget {
   final int currentStep;
   final int totalSteps;
   final VoidCallback? onBack;
@@ -70,18 +71,22 @@ class RecommendationFlowHeader extends StatelessWidget implements PreferredSizeW
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: AppColors.primary),
+                    icon:
+                        const Icon(Icons.arrow_back, color: AppColors.primary),
                     onPressed: onBack ?? () => Navigator.maybePop(context),
                     padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
+                    constraints:
+                        const BoxConstraints(minWidth: 40, minHeight: 40),
                     splashRadius: 24,
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                     decoration: BoxDecoration(
                       color: AppColors.surfaceContainer,
                       borderRadius: BorderRadius.circular(999),
-                      border: Border.all(color: AppColors.structuralBorder, width: 1),
+                      border: Border.all(
+                          color: AppColors.structuralBorder, width: 1),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -106,12 +111,15 @@ class RecommendationFlowHeader extends StatelessWidget implements PreferredSizeW
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.help_outline, color: AppColors.onSurfaceVariant, size: 22),
-                    onPressed: onHelp ?? () {
-                      _showHelpDialog(context);
-                    },
+                    icon: const Icon(Icons.help_outline,
+                        color: AppColors.onSurfaceVariant, size: 22),
+                    onPressed: onHelp ??
+                        () {
+                          _showHelpDialog(context);
+                        },
                     padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
+                    constraints:
+                        const BoxConstraints(minWidth: 40, minHeight: 40),
                     splashRadius: 24,
                   ),
                 ],
@@ -148,7 +156,9 @@ class RecommendationFlowHeader extends StatelessWidget implements PreferredSizeW
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Understood', style: AppTypography.titleMd.copyWith(color: AppColors.secondary)),
+            child: Text('Understood',
+                style:
+                    AppTypography.titleMd.copyWith(color: AppColors.secondary)),
           ),
         ],
       ),

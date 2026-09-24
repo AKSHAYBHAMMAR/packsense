@@ -50,10 +50,13 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
     _nameController = TextEditingController(text: p.productName);
     _categoryController = TextEditingController(text: p.foodCategory);
     _typeController = TextEditingController(text: p.foodType);
-    _moistureController = TextEditingController(text: p.moisturePercent.toStringAsFixed(1));
+    _moistureController =
+        TextEditingController(text: p.moisturePercent.toStringAsFixed(1));
     _phController = TextEditingController(text: p.ph.toStringAsFixed(1));
-    _oilFatController = TextEditingController(text: p.oilFatPercent.toStringAsFixed(1));
-    _shelfLifeController = TextEditingController(text: p.targetShelfLifeDays.toString());
+    _oilFatController =
+        TextEditingController(text: p.oilFatPercent.toStringAsFixed(1));
+    _shelfLifeController =
+        TextEditingController(text: p.targetShelfLifeDays.toString());
 
     _physicalState = p.physicalState;
     _storageTemperature = p.storageTemperature;
@@ -124,16 +127,19 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 6),
                         decoration: BoxDecoration(
                           color: AppColors.surfaceContainerLowest,
                           borderRadius: BorderRadius.circular(999),
-                          border: Border.all(color: AppColors.structuralBorder, width: 1),
+                          border: Border.all(
+                              color: AppColors.structuralBorder, width: 1),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text(widget.foodItem.emoji, style: const TextStyle(fontSize: 16)),
+                            Text(widget.foodItem.emoji,
+                                style: const TextStyle(fontSize: 16)),
                             const SizedBox(width: 8),
                             Text(
                               widget.foodItem.name,
@@ -161,12 +167,14 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
                   const SizedBox(height: 6),
                   Text(
                     'Provide chemical, physical, and logistics parameters to calculate packaging barrier requirements.',
-                    style: AppTypography.bodyMd.copyWith(color: AppColors.onSurfaceVariant),
+                    style: AppTypography.bodyMd
+                        .copyWith(color: AppColors.onSurfaceVariant),
                   ),
                   const SizedBox(height: 24),
 
                   // Section 1: Food Information
-                  _buildSectionHeader('1. Food Information', Icons.restaurant_menu),
+                  _buildSectionHeader(
+                      '1. Food Information', Icons.restaurant_menu),
                   const SizedBox(height: 12),
                   _buildTextInput(
                     controller: _nameController,
@@ -196,7 +204,8 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
                   const SizedBox(height: 24),
 
                   // Section 2: Physical & Chemical Properties
-                  _buildSectionHeader('2. Physical & Chemical Properties', Icons.science),
+                  _buildSectionHeader(
+                      '2. Physical & Chemical Properties', Icons.science),
                   const SizedBox(height: 12),
                   _buildPhysicalStateSelector(),
                   const SizedBox(height: 14),
@@ -207,7 +216,8 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
                           controller: _moistureController,
                           label: 'Moisture (%)',
                           hint: '85.0',
-                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -216,7 +226,8 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
                           controller: _phController,
                           label: 'Acidity (pH)',
                           hint: '4.4',
-                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -225,7 +236,8 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
                           controller: _oilFatController,
                           label: 'Fat/Oil (%)',
                           hint: '0.2',
-                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
                         ),
                       ),
                     ],
@@ -233,7 +245,8 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
                   const SizedBox(height: 24),
 
                   // Section 3: Storage & Shelf-Life Requirements
-                  _buildSectionHeader('3. Storage & Shelf-Life', Icons.thermostat),
+                  _buildSectionHeader(
+                      '3. Storage & Shelf-Life', Icons.thermostat),
                   const SizedBox(height: 12),
                   _buildStorageTempSelector(),
                   const SizedBox(height: 14),
@@ -246,7 +259,8 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
                   const SizedBox(height: 24),
 
                   // Section 4: Transportation & Fragility
-                  _buildSectionHeader('4. Logistics & Fragility', Icons.local_shipping),
+                  _buildSectionHeader(
+                      '4. Logistics & Fragility', Icons.local_shipping),
                   const SizedBox(height: 12),
                   _buildTransportDistanceSelector(),
                   const SizedBox(height: 14),
@@ -254,7 +268,8 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
                   const SizedBox(height: 24),
 
                   // Section 5: Economic & Sustainability Preferences
-                  _buildSectionHeader('5. Economic & Eco Preferences', Icons.eco),
+                  _buildSectionHeader(
+                      '5. Economic & Eco Preferences', Icons.eco),
                   const SizedBox(height: 12),
                   _buildSustainabilitySelector(),
                   const SizedBox(height: 14),
@@ -323,18 +338,22 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
             hintText: hint,
             filled: true,
             fillColor: AppColors.surfaceContainerLowest,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: AppColors.structuralBorder, width: 1),
+              borderSide:
+                  const BorderSide(color: AppColors.structuralBorder, width: 1),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: AppColors.structuralBorder, width: 1),
+              borderSide:
+                  const BorderSide(color: AppColors.structuralBorder, width: 1),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: AppColors.secondary, width: 1.5),
+              borderSide:
+                  const BorderSide(color: AppColors.secondary, width: 1.5),
             ),
           ),
         ),
@@ -368,7 +387,8 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
                     if (selected) setState(() => _physicalState = state);
                   },
                   labelStyle: AppTypography.labelSm.copyWith(
-                    color: isSelected ? Colors.white : AppColors.onSurfaceVariant,
+                    color:
+                        isSelected ? Colors.white : AppColors.onSurfaceVariant,
                     fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                   ),
                   selectedColor: AppColors.primaryContainer,
@@ -376,7 +396,9 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(999),
                     side: BorderSide(
-                      color: isSelected ? AppColors.primaryContainer : AppColors.structuralBorder,
+                      color: isSelected
+                          ? AppColors.primaryContainer
+                          : AppColors.structuralBorder,
                     ),
                   ),
                 ),
@@ -405,19 +427,23 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
             _buildChipOption(
               label: 'Room Temp (20°C)',
               isSelected: _storageTemperature == StorageTemperature.roomTemp,
-              onTap: () => setState(() => _storageTemperature = StorageTemperature.roomTemp),
+              onTap: () => setState(
+                  () => _storageTemperature = StorageTemperature.roomTemp),
             ),
             const SizedBox(width: 8),
             _buildChipOption(
               label: 'Refrigerated (4-10°C)',
-              isSelected: _storageTemperature == StorageTemperature.refrigerated,
-              onTap: () => setState(() => _storageTemperature = StorageTemperature.refrigerated),
+              isSelected:
+                  _storageTemperature == StorageTemperature.refrigerated,
+              onTap: () => setState(
+                  () => _storageTemperature = StorageTemperature.refrigerated),
             ),
             const SizedBox(width: 8),
             _buildChipOption(
               label: 'Frozen (-18°C)',
               isSelected: _storageTemperature == StorageTemperature.frozen,
-              onTap: () => setState(() => _storageTemperature = StorageTemperature.frozen),
+              onTap: () => setState(
+                  () => _storageTemperature = StorageTemperature.frozen),
             ),
           ],
         ),
@@ -441,20 +467,26 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
           children: [
             _buildChipOption(
               label: 'Local (< 50 km)',
-              isSelected: _transportationDistance == TransportationDistance.local,
-              onTap: () => setState(() => _transportationDistance = TransportationDistance.local),
+              isSelected:
+                  _transportationDistance == TransportationDistance.local,
+              onTap: () => setState(
+                  () => _transportationDistance = TransportationDistance.local),
             ),
             const SizedBox(width: 8),
             _buildChipOption(
               label: 'Regional (50-500 km)',
-              isSelected: _transportationDistance == TransportationDistance.regional,
-              onTap: () => setState(() => _transportationDistance = TransportationDistance.regional),
+              isSelected:
+                  _transportationDistance == TransportationDistance.regional,
+              onTap: () => setState(() =>
+                  _transportationDistance = TransportationDistance.regional),
             ),
             const SizedBox(width: 8),
             _buildChipOption(
               label: 'Long Distance',
-              isSelected: _transportationDistance == TransportationDistance.longDistance,
-              onTap: () => setState(() => _transportationDistance = TransportationDistance.longDistance),
+              isSelected: _transportationDistance ==
+                  TransportationDistance.longDistance,
+              onTap: () => setState(() => _transportationDistance =
+                  TransportationDistance.longDistance),
             ),
           ],
         ),
@@ -477,7 +509,8 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
         Row(
           children: FragilityLevel.values.map((fragility) {
             final isSelected = _fragility == fragility;
-            final label = fragility.name[0].toUpperCase() + fragility.name.substring(1);
+            final label =
+                fragility.name[0].toUpperCase() + fragility.name.substring(1);
             return Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -510,20 +543,26 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
           children: [
             _buildChipOption(
               label: 'Standard',
-              isSelected: _sustainabilityPreference == SustainabilityPreference.standard,
-              onTap: () => setState(() => _sustainabilityPreference = SustainabilityPreference.standard),
+              isSelected: _sustainabilityPreference ==
+                  SustainabilityPreference.standard,
+              onTap: () => setState(() => _sustainabilityPreference =
+                  SustainabilityPreference.standard),
             ),
             const SizedBox(width: 8),
             _buildChipOption(
               label: '100% Recyclable',
-              isSelected: _sustainabilityPreference == SustainabilityPreference.recyclable,
-              onTap: () => setState(() => _sustainabilityPreference = SustainabilityPreference.recyclable),
+              isSelected: _sustainabilityPreference ==
+                  SustainabilityPreference.recyclable,
+              onTap: () => setState(() => _sustainabilityPreference =
+                  SustainabilityPreference.recyclable),
             ),
             const SizedBox(width: 8),
             _buildChipOption(
               label: 'Bio / Compostable',
-              isSelected: _sustainabilityPreference == SustainabilityPreference.compostable,
-              onTap: () => setState(() => _sustainabilityPreference = SustainabilityPreference.compostable),
+              isSelected: _sustainabilityPreference ==
+                  SustainabilityPreference.compostable,
+              onTap: () => setState(() => _sustainabilityPreference =
+                  SustainabilityPreference.compostable),
             ),
           ],
         ),
@@ -546,7 +585,8 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
         Row(
           children: BudgetTier.values.map((budget) {
             final isSelected = _budgetPreference == budget;
-            final label = budget.name[0].toUpperCase() + budget.name.substring(1);
+            final label =
+                budget.name[0].toUpperCase() + budget.name.substring(1);
             return Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -575,10 +615,14 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
         duration: const Duration(milliseconds: 120),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primaryContainer : AppColors.surfaceContainerLowest,
+          color: isSelected
+              ? AppColors.primaryContainer
+              : AppColors.surfaceContainerLowest,
           borderRadius: BorderRadius.circular(999),
           border: Border.all(
-            color: isSelected ? AppColors.primaryContainer : AppColors.structuralBorder,
+            color: isSelected
+                ? AppColors.primaryContainer
+                : AppColors.structuralBorder,
             width: 1,
           ),
         ),

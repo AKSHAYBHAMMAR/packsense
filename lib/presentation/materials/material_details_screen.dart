@@ -36,7 +36,8 @@ class MaterialDetailsScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: AppColors.primary),
+                    icon:
+                        const Icon(Icons.arrow_back, color: AppColors.primary),
                     onPressed: () => Navigator.maybePop(context),
                     splashRadius: 24,
                   ),
@@ -72,7 +73,8 @@ class MaterialDetailsScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
                               color: AppColors.surfaceContainerLow,
                               borderRadius: BorderRadius.circular(999),
@@ -86,7 +88,8 @@ class MaterialDetailsScreen extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(
                               color: AppColors.secondaryContainer,
                               borderRadius: BorderRadius.circular(999),
@@ -123,28 +126,34 @@ class MaterialDetailsScreen extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 // Technical Barrier Parameters
-                Text('Technical Barrier Parameters', style: AppTypography.titleLg),
+                Text('Technical Barrier Parameters',
+                    style: AppTypography.titleLg),
                 const SizedBox(height: 12),
                 CustomOrganicCard(
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      _buildParamRow('Oxygen Transmission (OTR)', material.otrSpec),
+                      _buildParamRow(
+                          'Oxygen Transmission (OTR)', material.otrSpec),
                       const Divider(color: Color(0x1FE3EAE1), height: 20),
-                      _buildParamRow('Water Vapor Transmission (WVTR)', material.wvtrSpec),
+                      _buildParamRow(
+                          'Water Vapor Transmission (WVTR)', material.wvtrSpec),
                       const Divider(color: Color(0x1FE3EAE1), height: 20),
                       _buildParamRow('Caliper / Thickness', material.thickness),
                       const Divider(color: Color(0x1FE3EAE1), height: 20),
-                      _buildParamRow('Durability & Puncture', material.durability),
+                      _buildParamRow(
+                          'Durability & Puncture', material.durability),
                       const Divider(color: Color(0x1FE3EAE1), height: 20),
-                      _buildParamRow('Recycling / Stream', material.recyclabilityCode),
+                      _buildParamRow(
+                          'Recycling / Stream', material.recyclabilityCode),
                     ],
                   ),
                 ),
                 const SizedBox(height: 20),
 
                 // Key Performance Highlights
-                Text('Key Performance Highlights', style: AppTypography.titleLg),
+                Text('Key Performance Highlights',
+                    style: AppTypography.titleLg),
                 const SizedBox(height: 12),
                 ListView.separated(
                   shrinkWrap: true,
@@ -158,11 +167,13 @@ class MaterialDetailsScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: AppColors.surfaceContainerLowest,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.structuralBorder, width: 1),
+                        border: Border.all(
+                            color: AppColors.structuralBorder, width: 1),
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.check_circle_outline, color: AppColors.secondary, size: 18),
+                          const Icon(Icons.check_circle_outline,
+                              color: AppColors.secondary, size: 18),
                           const SizedBox(width: 10),
                           Expanded(
                             child: Text(
@@ -201,7 +212,8 @@ class MaterialDetailsScreen extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: AppColors.primaryContainer,
-                  content: Text('Supplier quote request sent for ${material.name}.'),
+                  content:
+                      Text('Supplier quote request sent for ${material.name}.'),
                 ),
               );
             },

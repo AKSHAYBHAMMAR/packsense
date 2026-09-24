@@ -43,10 +43,12 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
                 children: [
                   if (showBack)
                     IconButton(
-                      icon: const Icon(Icons.arrow_back, color: AppColors.primary),
+                      icon: const Icon(Icons.arrow_back,
+                          color: AppColors.primary),
                       onPressed: onBack ?? () => Navigator.maybePop(context),
                       padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
+                      constraints:
+                          const BoxConstraints(minWidth: 40, minHeight: 40),
                       splashRadius: 24,
                     )
                   else
@@ -81,7 +83,8 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
                 children: actions ??
                     [
                       IconButton(
-                        icon: const Icon(Icons.help_outline, color: AppColors.onSurfaceVariant, size: 20),
+                        icon: const Icon(Icons.help_outline,
+                            color: AppColors.onSurfaceVariant, size: 20),
                         onPressed: () {
                           _showAppInfo(context);
                         },
@@ -116,7 +119,9 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Close', style: AppTypography.titleMd.copyWith(color: AppColors.secondary)),
+            child: Text('Close',
+                style:
+                    AppTypography.titleMd.copyWith(color: AppColors.secondary)),
           ),
         ],
       ),

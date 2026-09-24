@@ -10,7 +10,8 @@ abstract class AppColors {
   static const Color surfaceBright = Color(0xFFF8FAF7);
 
   // Surface Containers
-  static const Color surfaceContainerLowest = Color(0xFFFFFFFF); // Clean white card surface
+  static const Color surfaceContainerLowest =
+      Color(0xFFFFFFFF); // Clean white card surface
   static const Color surfaceContainerLow = Color(0xFFF2F4F1);
   static const Color surfaceContainer = Color(0xFFECEEEB);
   static const Color surfaceContainerHigh = Color(0xFFE7E9E6);
@@ -61,6 +62,7 @@ abstract class AppColors {
 
   // Shadows
   static const Color cardShadow = Color(0x0A1B4332); // rgba(27,67,50,0.04)
-  static const Color activeCardShadow = Color(0x141B4332); // rgba(27,67,50,0.08)
+  static const Color activeCardShadow =
+      Color(0x141B4332); // rgba(27,67,50,0.08)
   static const Color buttonShadow = Color(0x3B40916C); // rgba(64,145,108,0.25)
 }

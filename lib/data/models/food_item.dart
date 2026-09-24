@@ -27,7 +27,8 @@ class FoodItem {
       category: 'Fresh Produce',
       emoji: '🍅',
       characteristicBadge: 'High Respiration',
-      description: 'Climacteric fruit with active gas exchange, sensitive to moisture pooling.',
+      description:
+          'Climacteric fruit with active gas exchange, sensitive to moisture pooling.',
     ),
     FoodItem(
       id: 'apple',
@@ -36,7 +37,8 @@ class FoodItem {
       category: 'Fresh Produce',
       emoji: '🍎',
       characteristicBadge: 'Moderate',
-      description: 'Firm flesh with moderate respiration, needs controlled O2/CO2 balance.',
+      description:
+          'Firm flesh with moderate respiration, needs controlled O2/CO2 balance.',
     ),
     FoodItem(
       id: 'mango',
@@ -45,7 +47,8 @@ class FoodItem {
       category: 'Fresh Produce',
       emoji: '🥭',
       characteristicBadge: 'Tropical',
-      description: 'High ethylene production, prone to chilling injury below 10°C.',
+      description:
+          'High ethylene production, prone to chilling injury below 10°C.',
     ),
     FoodItem(
       id: 'potato',
@@ -54,7 +57,8 @@ class FoodItem {
       category: 'Tuber',
       emoji: '🥔',
       characteristicBadge: 'Moisture Sensitive',
-      description: 'Requires darkness to prevent greening (solanine) and balanced ventilation.',
+      description:
+          'Requires darkness to prevent greening (solanine) and balanced ventilation.',
     ),
     FoodItem(
       id: 'rice_grains',
@@ -63,7 +67,8 @@ class FoodItem {
       category: 'Dry Food',
       emoji: '🌾',
       characteristicBadge: 'Low Respiration',
-      description: 'Very dry product needing moisture vapor shielding and insect barrier.',
+      description:
+          'Very dry product needing moisture vapor shielding and insect barrier.',
     ),
     FoodItem(
       id: 'biscuits',
@@ -72,7 +77,8 @@ class FoodItem {
       category: 'Dry Baked',
       emoji: '🍪',
       characteristicBadge: 'High WVTR Barrier',
-      description: 'Crisp texture requiring stringent moisture protection to prevent sogginess.',
+      description:
+          'Crisp texture requiring stringent moisture protection to prevent sogginess.',
     ),
     FoodItem(
       id: 'chips_snacks',
@@ -81,7 +87,8 @@ class FoodItem {
       category: 'Fried Dry',
       emoji: '🍟',
       characteristicBadge: 'O2 Sensitive',
-      description: 'High oil/fat content prone to oxidation, needs nitrogen-flushed pouch.',
+      description:
+          'High oil/fat content prone to oxidation, needs nitrogen-flushed pouch.',
     ),
     FoodItem(
       id: 'spices',
@@ -90,7 +97,8 @@ class FoodItem {
       category: 'Aromatic',
       emoji: '🌿',
       characteristicBadge: 'Volatile Flavor Loss',
-      description: 'Rich in essential oils, requires high aroma retention barrier.',
+      description:
+          'Rich in essential oils, requires high aroma retention barrier.',
     ),
   ];
 }

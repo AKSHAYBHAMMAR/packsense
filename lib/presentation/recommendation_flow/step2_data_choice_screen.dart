@@ -31,7 +31,9 @@ class _Step2DataChoiceScreenState extends State<Step2DataChoiceScreen> {
       MaterialPageRoute(
         builder: (_) => Step3FoodDetailsScreen(
           foodItem: widget.selectedFood,
-          initialProperties: FoodProperties.estimateForCommodity(widget.selectedFood.name).copyWith(
+          initialProperties:
+              FoodProperties.estimateForCommodity(widget.selectedFood.name)
+                  .copyWith(
             isMeasured: true,
           ),
         ),
@@ -41,7 +43,8 @@ class _Step2DataChoiceScreenState extends State<Step2DataChoiceScreen> {
 
   void _onEstimateForMe() {
     // Estimate properties and compute recommendation
-    final estimatedProps = FoodProperties.estimateForCommodity(widget.selectedFood.name).copyWith(
+    final estimatedProps =
+        FoodProperties.estimateForCommodity(widget.selectedFood.name).copyWith(
       isMeasured: false,
     );
     final result = _repository.analyzePackaging(estimatedProps);
@@ -68,11 +71,13 @@ class _Step2DataChoiceScreenState extends State<Step2DataChoiceScreen> {
               children: [
                 // Selected Food Summary Pill
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                   decoration: BoxDecoration(
                     color: AppColors.surfaceContainerLowest,
                     borderRadius: BorderRadius.circular(999),
-                    border: Border.all(color: AppColors.structuralBorder, width: 1),
+                    border:
+                        Border.all(color: AppColors.structuralBorder, width: 1),
                     boxShadow: const [
                       BoxShadow(
                         color: AppColors.cardShadow,
@@ -84,7 +89,8 @@ class _Step2DataChoiceScreenState extends State<Step2DataChoiceScreen> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(widget.selectedFood.emoji, style: const TextStyle(fontSize: 16)),
+                      Text(widget.selectedFood.emoji,
+                          style: const TextStyle(fontSize: 16)),
                       const SizedBox(width: 8),
                       Text(
                         widget.selectedFood.name,
@@ -231,7 +237,8 @@ class _Step2DataChoiceScreenState extends State<Step2DataChoiceScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const EpistemicTag.aiEstimate(),
-              const Icon(Icons.auto_awesome, color: AppColors.primaryContainer, size: 22),
+              const Icon(Icons.auto_awesome,
+                  color: AppColors.primaryContainer, size: 22),
             ],
           ),
           const SizedBox(height: 14),
@@ -278,7 +285,8 @@ class _Step2DataChoiceScreenState extends State<Step2DataChoiceScreen> {
             setState(() => _isAccordionExpanded = expanded);
           },
           tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-          leading: const Icon(Icons.info_outline, color: AppColors.secondary, size: 22),
+          leading: const Icon(Icons.info_outline,
+              color: AppColors.secondary, size: 22),
           title: Text(
             'Why do we ask?',
             style: AppTypography.titleMd.copyWith(
@@ -304,7 +312,8 @@ class _Step2DataChoiceScreenState extends State<Step2DataChoiceScreen> {
                   const SizedBox(height: 10),
                   Row(
                     children: [
-                      const Icon(Icons.verified, size: 16, color: AppColors.secondary),
+                      const Icon(Icons.verified,
+                          size: 16, color: AppColors.secondary),
                       const SizedBox(width: 6),
                       Text(
                         'ISO 15106 compliant models',

@@ -31,7 +31,8 @@ class AllMaterialsScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: AppColors.primary),
+                    icon:
+                        const Icon(Icons.arrow_back, color: AppColors.primary),
                     onPressed: () => Navigator.maybePop(context),
                     splashRadius: 24,
                   ),
@@ -75,7 +76,8 @@ class AllMaterialsScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 3),
                           decoration: BoxDecoration(
                             color: AppColors.surfaceContainerLow,
                             borderRadius: BorderRadius.circular(999),
@@ -133,7 +135,8 @@ class AllMaterialsScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            const Icon(Icons.chevron_right, size: 16, color: AppColors.secondary),
+                            const Icon(Icons.chevron_right,
+                                size: 16, color: AppColors.secondary),
                           ],
                         ),
                       ],

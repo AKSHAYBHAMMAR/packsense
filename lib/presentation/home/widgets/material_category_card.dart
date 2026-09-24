@@ -102,9 +102,12 @@ class MaterialCategoryGrid extends StatelessWidget {
                     Text(
                       cat.subtitle,
                       style: AppTypography.labelMd.copyWith(
-                        color: cat.isBio ? AppColors.secondary : AppColors.onSurfaceVariant,
+                        color: cat.isBio
+                            ? AppColors.secondary
+                            : AppColors.onSurfaceVariant,
                         fontSize: 10,
-                        fontWeight: cat.isBio ? FontWeight.w600 : FontWeight.w400,
+                        fontWeight:
+                            cat.isBio ? FontWeight.w600 : FontWeight.w400,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

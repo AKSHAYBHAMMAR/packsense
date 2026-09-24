@@ -71,7 +71,8 @@ class _Step4RecommendationResultScreenState
           children: [
             Row(
               children: [
-                const Icon(Icons.picture_as_pdf, color: AppColors.secondary, size: 28),
+                const Icon(Icons.picture_as_pdf,
+                    color: AppColors.secondary, size: 28),
                 const SizedBox(width: 10),
                 Text('Export PDF Report', style: AppTypography.titleLg),
               ],
@@ -133,10 +134,12 @@ class _Step4RecommendationResultScreenState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: AppColors.primary),
+                    icon:
+                        const Icon(Icons.arrow_back, color: AppColors.primary),
                     onPressed: () => Navigator.maybePop(context),
                     padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
+                    constraints:
+                        const BoxConstraints(minWidth: 40, minHeight: 40),
                     splashRadius: 24,
                   ),
                   Row(
@@ -163,16 +166,20 @@ class _Step4RecommendationResultScreenState
                   Row(
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.share, size: 20, color: AppColors.onSurfaceVariant),
+                        icon: const Icon(Icons.share,
+                            size: 20, color: AppColors.onSurfaceVariant),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Share link copied to clipboard.')),
+                            const SnackBar(
+                                content:
+                                    Text('Share link copied to clipboard.')),
                           );
                         },
                         splashRadius: 20,
                       ),
                       IconButton(
-                        icon: const Icon(Icons.help_outline, size: 20, color: AppColors.onSurfaceVariant),
+                        icon: const Icon(Icons.help_outline,
+                            size: 20, color: AppColors.onSurfaceVariant),
                         onPressed: () {
                           _showHelpDialog();
                         },
@@ -244,7 +251,8 @@ class _Step4RecommendationResultScreenState
                 ),
               ),
               const SizedBox(width: 6),
-              const Text('•', style: TextStyle(color: AppColors.outlineVariant)),
+              const Text('•',
+                  style: TextStyle(color: AppColors.outlineVariant)),
               const SizedBox(width: 6),
               Text(
                 rec.storageCondition,
@@ -253,7 +261,8 @@ class _Step4RecommendationResultScreenState
                 ),
               ),
               const SizedBox(width: 6),
-              const Text('•', style: TextStyle(color: AppColors.outlineVariant)),
+              const Text('•',
+                  style: TextStyle(color: AppColors.outlineVariant)),
               const SizedBox(width: 6),
               Text(
                 rec.targetShelfLife,
@@ -292,7 +301,8 @@ class _Step4RecommendationResultScreenState
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: AppColors.secondaryContainer,
                   borderRadius: BorderRadius.circular(999),
@@ -300,7 +310,8 @@ class _Step4RecommendationResultScreenState
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.verified, size: 14, color: AppColors.primary),
+                    const Icon(Icons.verified,
+                        size: 14, color: AppColors.primary),
                     const SizedBox(width: 4),
                     Text(
                       rec.matchTier,
@@ -350,12 +361,14 @@ class _Step4RecommendationResultScreenState
                 decoration: BoxDecoration(
                   color: AppColors.surfaceContainer,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.structuralBorder, width: 1),
+                  border:
+                      Border.all(color: AppColors.structuralBorder, width: 1),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.layers, size: 24, color: AppColors.secondary),
+                    const Icon(Icons.layers,
+                        size: 24, color: AppColors.secondary),
                     const SizedBox(height: 2),
                     Text(
                       rec.primaryMatch.polymerCode,
@@ -375,8 +388,10 @@ class _Step4RecommendationResultScreenState
 
           // Epistemic Data Tag
           rec.basedOnMeasuredData
-              ? const EpistemicTag.measured(customLabel: 'BASED ON MEASURED DATA')
-              : const EpistemicTag.aiEstimate(customLabel: 'BASED ON AI ESTIMATE'),
+              ? const EpistemicTag.measured(
+                  customLabel: 'BASED ON MEASURED DATA')
+              : const EpistemicTag.aiEstimate(
+                  customLabel: 'BASED ON AI ESTIMATE'),
           const SizedBox(height: 16),
 
           // Visual Barrier Transmission Bar Strip
@@ -390,15 +405,18 @@ class _Step4RecommendationResultScreenState
             child: Row(
               children: [
                 Expanded(
-                  child: _buildBarrierMetricPill('O₂ BARRIER', rec.o2BarrierRating, AppColors.primary),
+                  child: _buildBarrierMetricPill(
+                      'O₂ BARRIER', rec.o2BarrierRating, AppColors.primary),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                  child: _buildBarrierMetricPill('MOISTURE CONTROL', rec.moistureControlRating, AppColors.primary),
+                  child: _buildBarrierMetricPill('MOISTURE CONTROL',
+                      rec.moistureControlRating, AppColors.primary),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                  child: _buildBarrierMetricPill('CONDENSATION', rec.condensationRating, AppColors.secondary),
+                  child: _buildBarrierMetricPill('CONDENSATION',
+                      rec.condensationRating, AppColors.secondary),
                 ),
               ],
             ),
@@ -452,7 +470,8 @@ class _Step4RecommendationResultScreenState
         children: [
           Row(
             children: [
-              const Icon(Icons.psychology_alt, color: AppColors.secondary, size: 22),
+              const Icon(Icons.psychology_alt,
+                  color: AppColors.secondary, size: 22),
               const SizedBox(width: 8),
               Text(
                 'Why this packaging?',
@@ -486,7 +505,8 @@ class _Step4RecommendationResultScreenState
                 decoration: BoxDecoration(
                   color: AppColors.surfaceContainerLow.withOpacity(0.6),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: AppColors.structuralBorder, width: 1),
+                  border:
+                      Border.all(color: AppColors.structuralBorder, width: 1),
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -536,7 +556,8 @@ class _Step4RecommendationResultScreenState
           children: [
             Text(
               'Key Specifications',
-              style: AppTypography.titleLg.copyWith(fontWeight: FontWeight.w700),
+              style:
+                  AppTypography.titleLg.copyWith(fontWeight: FontWeight.w700),
             ),
             Text(
               'Empirical Benchmarks',
@@ -578,7 +599,8 @@ class _Step4RecommendationResultScreenState
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          const Icon(Icons.info_outline, size: 14, color: AppColors.outline),
+                          const Icon(Icons.info_outline,
+                              size: 14, color: AppColors.outline),
                         ],
                       ),
                       const SizedBox(height: 6),
@@ -641,7 +663,8 @@ class _Step4RecommendationResultScreenState
           children: [
             Text(
               'Other Options',
-              style: AppTypography.titleLg.copyWith(fontWeight: FontWeight.w700),
+              style:
+                  AppTypography.titleLg.copyWith(fontWeight: FontWeight.w700),
             ),
             Text(
               'Trade-off Analyses',
@@ -685,7 +708,8 @@ class _Step4RecommendationResultScreenState
                                 ),
                                 const SizedBox(width: 8),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 2),
                                   decoration: BoxDecoration(
                                     color: AppColors.surfaceContainerLow,
                                     borderRadius: BorderRadius.circular(999),
@@ -819,7 +843,9 @@ class _Step4RecommendationResultScreenState
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Close', style: AppTypography.titleMd.copyWith(color: AppColors.secondary)),
+            child: Text('Close',
+                style:
+                    AppTypography.titleMd.copyWith(color: AppColors.secondary)),
           ),
         ],
       ),

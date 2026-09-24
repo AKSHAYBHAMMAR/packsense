@@ -40,7 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _openRecentDetail(RecentAnalysisItem item) {
-    final properties = FoodProperties.estimateForCommodity(item.foodName).copyWith(
+    final properties =
+        FoodProperties.estimateForCommodity(item.foodName).copyWith(
       isMeasured: item.isMeasured,
     );
     final result = _repository.analyzePackaging(properties);
@@ -193,11 +194,14 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildFlowStep('Home', isActive: true),
-                const Icon(Icons.arrow_forward, size: 14, color: AppColors.outlineVariant),
+                const Icon(Icons.arrow_forward,
+                    size: 14, color: AppColors.outlineVariant),
                 _buildFlowStep('Food Details'),
-                const Icon(Icons.arrow_forward, size: 14, color: AppColors.outlineVariant),
+                const Icon(Icons.arrow_forward,
+                    size: 14, color: AppColors.outlineVariant),
                 _buildFlowStep('Recommendation'),
-                const Icon(Icons.arrow_forward, size: 14, color: AppColors.outlineVariant),
+                const Icon(Icons.arrow_forward,
+                    size: 14, color: AppColors.outlineVariant),
                 _buildFlowStep('Compare'),
               ],
             ),
@@ -211,10 +215,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: isActive ? AppColors.secondaryContainer.withOpacity(0.5) : AppColors.surfaceContainerLow,
+        color: isActive
+            ? AppColors.secondaryContainer.withOpacity(0.5)
+            : AppColors.surfaceContainerLow,
         borderRadius: BorderRadius.circular(999),
         border: Border.all(
-          color: isActive ? AppColors.secondary.withOpacity(0.3) : AppColors.structuralBorder,
+          color: isActive
+              ? AppColors.secondary.withOpacity(0.3)
+              : AppColors.structuralBorder,
           width: 1,
         ),
       ),
@@ -237,7 +245,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Text(
               'Explore Packaging Materials',
-              style: AppTypography.titleLg.copyWith(fontWeight: FontWeight.w700),
+              style:
+                  AppTypography.titleLg.copyWith(fontWeight: FontWeight.w700),
             ),
             TextButton(
               onPressed: _navigateToMaterials,
@@ -273,7 +282,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Text(
               'Recent Analysis',
-              style: AppTypography.titleLg.copyWith(fontWeight: FontWeight.w700),
+              style:
+                  AppTypography.titleLg.copyWith(fontWeight: FontWeight.w700),
             ),
             TextButton(
               onPressed: () {
@@ -420,14 +430,18 @@ class _HomeScreenState extends State<HomeScreen> {
             Icon(
               icon,
               size: 20,
-              color: isSelected ? AppColors.onSecondaryContainer : AppColors.onSurfaceVariant,
+              color: isSelected
+                  ? AppColors.onSecondaryContainer
+                  : AppColors.onSurfaceVariant,
             ),
             const SizedBox(height: 2),
             Text(
               label,
               style: AppTypography.labelSm.copyWith(
                 fontSize: 11,
-                color: isSelected ? AppColors.onSecondaryContainer : AppColors.onSurfaceVariant,
+                color: isSelected
+                    ? AppColors.onSecondaryContainer
+                    : AppColors.onSurfaceVariant,
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
               ),
             ),

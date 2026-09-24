@@ -59,18 +59,12 @@ class PackagingRepository {
     ),
   ];
 
-  List<RecentAnalysisItem> getRecentAnalyses() => List.unmodifiable(_recentAnalyses);
+  List<RecentAnalysisItem> getRecentAnalyses() =>
+      List.unmodifiable(_recentAnalyses);
 
   List<FoodItem> getCatalogFoods() => FoodItem.standardCatalog;
 
-  List<PackagingMaterial> getAllMaterials() => [
-        PackagingMaterial.breathableFilm,
-        PackagingMaterial.macroPerforatedLdpe,
-        PackagingMaterial.rPetClamshell,
-        PackagingMaterial.compostablePla,
-        PackagingMaterial.metallizedBopp,
-        PackagingMaterial.kraftValveBag,
-      ];
+  List<PackagingMaterial> getAllMaterials() => PackagingMaterial.allMaterials;
 
   void addAnalysis(RecentAnalysisItem item) {
     _recentAnalyses.insert(0, item);
