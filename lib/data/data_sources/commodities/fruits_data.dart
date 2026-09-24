@@ -787,12 +787,17 @@ const List<Commodity> fruitCommodities = [
   ),
   Commodity(
     id: 'fruit_coconut_mature',
-    name: 'Mature Coconut',
-    displayName: 'Dry Brown Coconut',
+    name: 'Coconut',
+    displayName: 'Fresh Brown Coconut',
     category: 'Fruits',
     subcategory: 'Drupe / Nut',
     scientificName: 'Cocos nucifera',
-    aliases: ['Pani Wala Nariyal', 'Dry Coconut', 'Desiccated Endosperm'],
+    aliases: [
+      'Pani Wala Nariyal',
+      'Dry Coconut',
+      'Desiccated Endosperm',
+      'Mature Coconut'
+    ],
     description: 'Hard fibrous drupe with thick oily endosperm.',
     emoji: '🥥',
     characteristicBadge: 'Fibrous Shell Hard',

@@ -26,12 +26,15 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
   bool _isLoading = false;
   String? _errorMessage;
 
-  List<Commodity> _popularCommodities = [];
-  List<Commodity> _searchResults = [];
+  List<Commodity> _allFilteredCommodities = [];
+  List<Commodity> _displayedCommodities = [];
   List<String> _categories = [];
   String _selectedCategory = 'All';
 
-  late Commodity _selectedCommodity;
+  int _visibleCount = 100;
+  static const int _pageSize = 100;
+
+  Commodity? _selectedCommodity;
 
   @override
   void initState() {
@@ -51,15 +54,18 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
   Future<void> _loadInitialData() async {
     setState(() => _isLoading = true);
     try {
-      final popular = await _commodityRepository.getPopularCommodities();
       final categories = await _commodityRepository.getCategories();
+      final all = await _commodityRepository.getAllCommodities();
       setState(() {
-        _popularCommodities = popular;
         _categories = categories;
-        if (popular.isNotEmpty) {
-          _selectedCommodity = popular.first;
+        _allFilteredCommodities = all;
+        _visibleCount = _pageSize;
+        _displayedCommodities = all.take(_visibleCount).toList();
+        if (_displayedCommodities.isNotEmpty) {
+          _selectedCommodity = _displayedCommodities.first;
         }
         _isLoading = false;
+        _errorMessage = null;
       });
     } catch (e) {
       setState(() {
@@ -80,22 +86,13 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
     if (_selectedCategory == category) return;
     setState(() {
       _selectedCategory = category;
+      _visibleCount = _pageSize;
     });
     _executeSearch();
   }
 
   Future<void> _executeSearch() async {
     final query = _searchController.text.trim();
-    final isDefault = query.isEmpty && _selectedCategory == 'All';
-
-    if (isDefault) {
-      setState(() {
-        _searchResults = [];
-        _isLoading = false;
-        _errorMessage = null;
-      });
-      return;
-    }
 
     setState(() {
       _isLoading = true;
@@ -109,10 +106,12 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
       );
 
       setState(() {
-        _searchResults = results;
+        _allFilteredCommodities = results;
+        _displayedCommodities = results.take(_visibleCount).toList();
         _isLoading = false;
         if (results.isNotEmpty &&
-            !_isCommodityInList(_selectedCommodity, results)) {
+            (_selectedCommodity == null ||
+                !_isCommodityInList(_selectedCommodity!, results))) {
           _selectedCommodity = results.first;
         }
       });
@@ -124,6 +123,14 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
     }
   }
 
+  void _onLoadMore() {
+    setState(() {
+      _visibleCount += _pageSize;
+      _displayedCommodities =
+          _allFilteredCommodities.take(_visibleCount).toList();
+    });
+  }
+
   bool _isCommodityInList(Commodity target, List<Commodity> list) {
     return list.any((c) => c.id == target.id);
   }
@@ -133,7 +140,8 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
   }
 
   void _onContinue() {
-    final FoodItem foodItem = _selectedCommodity.toFoodItem();
+    if (_selectedCommodity == null) return;
+    final FoodItem foodItem = _selectedCommodity!.toFoodItem();
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => Step2DataChoiceScreen(selectedFood: foodItem),
@@ -141,17 +149,36 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
     );
   }
 
+  String _getSectionTitle() {
+    final query = _searchController.text.trim();
+    if (query.isNotEmpty) {
+      return 'Search Results';
+    }
+    if (_selectedCategory != 'All') {
+      return '$_selectedCategory Products';
+    }
+    return 'All Food Products';
+  }
+
+  String _getSectionBadge() {
+    final query = _searchController.text.trim();
+    if (query.isNotEmpty) {
+      return '${_allFilteredCommodities.length} Found';
+    }
+    if (_selectedCategory != 'All') {
+      return '${_allFilteredCommodities.length} Products';
+    }
+    return 'Showing ${_displayedCommodities.length} of ${_allFilteredCommodities.length}';
+  }
+
   @override
   Widget build(BuildContext context) {
-    final bool isSearchOrFilterActive =
-        _searchController.text.trim().isNotEmpty || _selectedCategory != 'All';
-
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: const RecommendationFlowHeader(currentStep: 1),
       body: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 540),
+          constraints: const BoxConstraints(maxWidth: 880),
           child: Column(
             children: [
               Expanded(
@@ -166,7 +193,7 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
 
                       // Headline
                       Text(
-                        'What are you packaging?',
+                        'Food Commodities',
                         style: AppTypography.headlineLgMobile.copyWith(
                           color: AppColors.primary,
                           fontWeight: FontWeight.w700,
@@ -176,7 +203,7 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
 
                       // Subtitle
                       Text(
-                        'Search from 260+ validated food commodities to determine technical packaging requirements.',
+                        'Select from 255+ validated food commodities or search below to determine technical packaging requirements.',
                         style: AppTypography.bodyMd.copyWith(
                           color: AppColors.onSurfaceVariant,
                           height: 1.4,
@@ -197,12 +224,12 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
                         _buildLoadingState()
                       else if (_errorMessage != null)
                         _buildErrorState()
-                      else if (isSearchOrFilterActive)
-                        _buildSearchResultsSection()
+                      else if (_displayedCommodities.isEmpty)
+                        _buildNoResultsState()
                       else
-                        _buildPopularCommoditiesSection(),
+                        _buildCatalogGridSection(),
 
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 24),
 
                       // Epistemic Grounding Note
                       _buildEpistemicBanner(),
@@ -216,10 +243,12 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
       ),
       bottomNavigationBar: StickyBottomActionBar(
         child: PackSenseButton(
-          label: 'Continue with ${_selectedCommodity.name}',
+          label: _selectedCommodity != null
+              ? 'Continue with ${_selectedCommodity!.name}'
+              : 'Select a Commodity',
           icon: Icons.arrow_forward,
           variant: ButtonVariant.primary,
-          onPressed: _onContinue,
+          onPressed: _selectedCommodity != null ? _onContinue : null,
         ),
       ),
     );
@@ -246,7 +275,7 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
           ),
           const SizedBox(width: 6),
           Text(
-            'COMMODITY INTAKE • 260+ PROFILES',
+            'COMMODITY INTAKE • 255+ PROFILES',
             style: AppTypography.labelSm.copyWith(
               color: AppColors.secondary,
               fontWeight: FontWeight.w700,
@@ -277,9 +306,9 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
         controller: _searchController,
         style: AppTypography.bodyMd.copyWith(color: AppColors.onSurface),
         decoration: InputDecoration(
-          hintText: 'Search food (e.g. Mango, Rice, Chips, Paneer...)',
-          hintStyle: AppTypography.bodyMd
-              .copyWith(color: AppColors.onSurfaceVariant.withOpacity(0.7)),
+          hintText: 'Search food product (e.g. Mango, Rice, Chips, Paneer...)',
+          hintStyle: AppTypography.bodyMd.copyWith(
+              color: AppColors.onSurfaceVariant.withValues(alpha: 0.7)),
           prefixIcon: const Icon(
             Icons.search,
             color: AppColors.secondary,
@@ -345,29 +374,32 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
     );
   }
 
-  Widget _buildPopularCommoditiesSection() {
+  Widget _buildCatalogGridSection() {
+    final hasMore =
+        _displayedCommodities.length < _allFilteredCommodities.length;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Section Title Bar
+        // Section Header Bar
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Popular Commodities',
+              _getSectionTitle(),
               style: AppTypography.titleMd.copyWith(
                 color: AppColors.primary,
                 fontWeight: FontWeight.w700,
               ),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
               decoration: BoxDecoration(
-                color: AppColors.secondaryContainer.withOpacity(0.4),
+                color: AppColors.secondaryContainer.withValues(alpha: 0.4),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Text(
-                'Quick-Select',
+                _getSectionBadge(),
                 style: AppTypography.labelSm.copyWith(
                   color: AppColors.secondary,
                   fontWeight: FontWeight.w700,
@@ -376,127 +408,68 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 14),
 
-        // Grid of Popular Commodities
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: _popularCommodities.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            childAspectRatio: 0.96,
-          ),
-          itemBuilder: (context, index) {
-            final item = _popularCommodities[index];
-            final isSelected = item.id == _selectedCommodity.id;
-            return _buildCommodityCard(item, isSelected);
+        // Responsive Grid
+        LayoutBuilder(
+          builder: (context, constraints) {
+            int crossAxisCount = 2;
+            if (constraints.maxWidth >= 760) {
+              crossAxisCount = 4;
+            } else if (constraints.maxWidth >= 520) {
+              crossAxisCount = 3;
+            }
+
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _displayedCommodities.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+                childAspectRatio: 0.94,
+              ),
+              itemBuilder: (context, index) {
+                final item = _displayedCommodities[index];
+                final isSelected = _selectedCommodity != null &&
+                    item.id == _selectedCommodity!.id;
+                return _buildCommodityCard(item, isSelected);
+              },
+            );
           },
         ),
 
-        const SizedBox(height: 18),
-
-        // Catalog Expansion Banner
-        Container(
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            color: AppColors.surfaceContainerLowest,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.structuralBorder, width: 1),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 38,
-                height: 38,
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceContainerLow,
-                  borderRadius: BorderRadius.circular(8),
+        // Load More button if not all matching items are shown
+        if (hasMore) ...[
+          const SizedBox(height: 18),
+          Center(
+            child: OutlinedButton.icon(
+              onPressed: _onLoadMore,
+              style: OutlinedButton.styleFrom(
+                foregroundColor: AppColors.primary,
+                side: const BorderSide(
+                  color: AppColors.structuralBorder,
+                  width: 1.5,
                 ),
-                child: const Icon(
-                  Icons.auto_stories_rounded,
-                  color: AppColors.secondary,
-                  size: 20,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
+                backgroundColor: AppColors.surfaceContainerLowest,
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Search 260+ Food Profiles',
-                      style: AppTypography.titleMd.copyWith(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'Fruits, Vegetables, Dairy, Bakery, Seafood, Meat, Spices, Beverages & Frozen Foods are all indexed above.',
-                      style: AppTypography.bodySm.copyWith(
-                        color: AppColors.onSurfaceVariant,
-                        fontSize: 11,
-                      ),
-                    ),
-                  ],
+              icon: const Icon(Icons.expand_more, size: 20),
+              label: Text(
+                'Load More Commodities (${_allFilteredCommodities.length - _displayedCommodities.length} More)',
+                style: AppTypography.labelMd.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primary,
                 ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSearchResultsSection() {
-    if (_searchResults.isEmpty) {
-      return _buildNoResultsState();
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              _searchController.text.trim().isNotEmpty
-                  ? 'Search Results'
-                  : '$_selectedCategory Profiles',
-              style: AppTypography.titleMd.copyWith(
-                color: AppColors.primary,
-                fontWeight: FontWeight.w700,
               ),
             ),
-            Text(
-              '${_searchResults.length} Profiles Found',
-              style: AppTypography.labelSm.copyWith(
-                color: AppColors.secondary,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: _searchResults.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            childAspectRatio: 0.96,
           ),
-          itemBuilder: (context, index) {
-            final item = _searchResults[index];
-            final isSelected = item.id == _selectedCommodity.id;
-            return _buildCommodityCard(item, isSelected);
-          },
-        ),
+        ],
       ],
     );
   }
@@ -569,6 +542,7 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
                       style: AppTypography.titleMd.copyWith(
                         color: AppColors.primary,
                         fontWeight: FontWeight.w700,
+                        fontSize: 13.5,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -673,7 +647,7 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
           Container(
             width: 54,
             height: 54,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: AppColors.surfaceContainerLow,
               shape: BoxShape.circle,
             ),
@@ -694,7 +668,7 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
           ),
           const SizedBox(height: 6),
           Text(
-            "We're expanding the PackSense knowledge base with over 260+ food profiles. Try searching broader terms (e.g. 'fruit', 'rice', 'milk', 'chilli') or check spelling.",
+            "We're expanding the PackSense knowledge base with over 255+ food profiles. Try searching broader terms (e.g. 'fruit', 'rice', 'milk', 'chilli') or check spelling.",
             style: AppTypography.bodySm.copyWith(
               color: AppColors.onSurfaceVariant,
               height: 1.4,
@@ -705,11 +679,14 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
           TextButton.icon(
             onPressed: () {
               _searchController.clear();
-              setState(() => _selectedCategory = 'All');
+              setState(() {
+                _selectedCategory = 'All';
+                _visibleCount = _pageSize;
+              });
               _executeSearch();
             },
             icon: const Icon(Icons.refresh, size: 16),
-            label: const Text('Reset search & show popular items'),
+            label: const Text('Reset search & show all food products'),
             style: TextButton.styleFrom(
               foregroundColor: AppColors.secondary,
             ),
@@ -723,9 +700,10 @@ class _Step1FoodSelectionScreenState extends State<Step1FoodSelectionScreen> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.errorContainer.withOpacity(0.3),
+        color: AppColors.errorContainer.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.error.withOpacity(0.3), width: 1),
+        border:
+            Border.all(color: AppColors.error.withValues(alpha: 0.3), width: 1),
       ),
       child: Column(
         children: [

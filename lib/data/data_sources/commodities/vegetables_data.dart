@@ -641,12 +641,12 @@ const List<Commodity> vegetableCommodities = [
   ),
   Commodity(
     id: 'veg_peas',
-    name: 'Fresh Peas',
-    displayName: 'Green Peas in Pod',
+    name: 'Green Peas',
+    displayName: 'Fresh Green Peas in Pod',
     category: 'Vegetables',
     subcategory: 'Legume Pods',
     scientificName: 'Pisum sativum',
-    aliases: ['Matar', 'Green Peas', 'Garden Peas'],
+    aliases: ['Matar', 'Green Peas', 'Garden Peas', 'Fresh Peas'],
     description:
         'Rapid post-harvest conversion of sucrose into starch; quick loss of sweetness.',
     emoji: '🫛',

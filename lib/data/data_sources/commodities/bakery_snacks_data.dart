@@ -391,12 +391,12 @@ const List<Commodity> bakeryAndSnackCommodities = [
   ),
   Commodity(
     id: 'snack_namkeen_bhujia',
-    name: 'Bhujia',
-    displayName: 'Bikaneri Aloo Bhujia',
+    name: 'Namkeen',
+    displayName: 'Namkeen / Aloo Bhujia',
     category: 'Biscuits & Snacks',
     subcategory: 'Extruded Fried Snacks',
     scientificName: 'Fried Moth & Gram Flour Sev',
-    aliases: ['Aloo Bhujia', 'Bikaneri Bhujia', 'Sev'],
+    aliases: ['Bhujia', 'Bikaneri Bhujia', 'Sev', 'Namkeen Mix'],
     description:
         'Thin extruded fried gram flour strands with spices; high oil content and fine fragile needles.',
     emoji: '🥨',

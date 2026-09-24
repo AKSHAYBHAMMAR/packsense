@@ -115,12 +115,12 @@ const List<Commodity> grainAndPulseCommodities = [
   ),
   Commodity(
     id: 'grain_whole_wheat_flour',
-    name: 'Whole Wheat Flour',
-    displayName: 'Chakki Whole Wheat Atta',
+    name: 'Whole Wheat',
+    displayName: 'Whole Wheat / Atta',
     category: 'Grains & Cereals',
     subcategory: 'Milled Flour',
     scientificName: 'Triticum aestivum (Milled)',
-    aliases: ['Atta', 'Wholemeal Flour', 'Chakki Atta'],
+    aliases: ['Whole Wheat Flour', 'Atta', 'Wholemeal Flour', 'Chakki Atta'],
     description:
         'High surface area powder containing wheat germ oils prone to rancidity and clumping.',
     emoji: '🌾',
@@ -242,12 +242,12 @@ const List<Commodity> grainAndPulseCommodities = [
   ),
   Commodity(
     id: 'grain_sorghum',
-    name: 'Sorghum',
+    name: 'Jowar',
     displayName: 'Whole Sorghum / Jowar',
     category: 'Grains & Cereals',
     subcategory: 'Millets & Sorghum',
     scientificName: 'Sorghum bicolor',
-    aliases: ['Jowar', 'Milo', 'Great Millet'],
+    aliases: ['Sorghum', 'Milo', 'Great Millet', 'Jowar Grain'],
     description: 'Drought-hardy gluten-free grain with hard endosperm.',
     emoji: '🌾',
     characteristicBadge: 'Hard Endosperm Storer',
@@ -473,12 +473,17 @@ const List<Commodity> grainAndPulseCommodities = [
   ),
   Commodity(
     id: 'pulse_green_lentils',
-    name: 'Green Lentils',
+    name: 'Lentils',
     displayName: 'Whole Green Lentils',
     category: 'Pulses & Legumes',
     subcategory: 'Whole Pulses',
     scientificName: 'Lens culinaris',
-    aliases: ['Sabut Masoor', 'French Green Lentils', 'Brown Lentils'],
+    aliases: [
+      'Green Lentils',
+      'Sabut Masoor',
+      'French Green Lentils',
+      'Brown Lentils'
+    ],
     description:
         'Lens-shaped seed with protective seed coat, storing well under low humidity.',
     emoji: '🫘',

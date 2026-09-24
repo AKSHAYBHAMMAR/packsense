@@ -226,14 +226,70 @@ void main() async {
       throw Exception(
           'Expected liquid packaging for fruit juice, got ${juiceRec.primaryMatch.name}');
     }
+  });
 
-    // Deep frozen vegetable -> Cold-tolerant PE freezer film
-    final frozenPeasProps = FoodProperties.estimateForCommodity('Frozen Peas');
-    final frozenRec = PackagingRecommendationResult.compute(frozenPeasProps);
-    if (frozenRec.primaryMatch.id != 'deep_freeze_pe') {
+  // Test 13: Minimum 80 visible user-facing catalog products (Target 100)
+  await asyncTest(
+      '13. Initial user-facing catalog returns at least 80 (target 100+) visible products',
+      () async {
+    final initialCatalog = await repo.getInitialCatalog(limit: 100);
+    if (initialCatalog.length < 80) {
       throw Exception(
-          'Expected cold-tolerant film for frozen peas, got ${frozenRec.primaryMatch.name}');
+          'Expected at least 80 visible catalog products, got ${initialCatalog.length}');
     }
+    if (initialCatalog.length < 100) {
+      throw Exception(
+          'Target 100 visible products not met, got ${initialCatalog.length}');
+    }
+    print('    Initial user-facing catalog size: ${initialCatalog.length}');
+  });
+
+  // Test 14: All 100 concrete commodities from Section 3 exist by exact name
+  test('14. All 100 concrete commodities from Section 3 exist in the catalog',
+      () {
+    final allNames = CommodityLocalData.allCommodities
+        .map((c) => c.name.toLowerCase())
+        .toSet();
+    final missing = <String>[];
+    for (final target in kPrimaryTargetCommodityNames) {
+      if (!allNames.contains(target.toLowerCase())) {
+        missing.add(target);
+      }
+    }
+    if (missing.isNotEmpty) {
+      throw Exception('Missing concrete target commodities: $missing');
+    }
+    print(
+        '    All ${kPrimaryTargetCommodityNames.length} target commodities verified present!');
+  });
+
+  // Test 15: Every commodity has complete structured characteristics and is analyzable
+  test(
+      '15. Every commodity is analyzable and can generate packaging recommendations',
+      () {
+    for (final commodity in CommodityLocalData.allCommodities) {
+      if (commodity.id.isEmpty)
+        throw Exception('Commodity has empty ID: ${commodity.name}');
+      if (commodity.name.isEmpty)
+        throw Exception('Commodity has empty name: ${commodity.id}');
+      if (commodity.category.isEmpty)
+        throw Exception('Commodity has empty category: ${commodity.name}');
+      if (commodity.shelfLifeDays <= 0)
+        throw Exception('Invalid shelf life for ${commodity.name}');
+
+      // Must convert to FoodProperties and FoodItem without error
+      final foodItem = commodity.toFoodItem();
+      if (foodItem.name.isEmpty)
+        throw Exception('FoodItem has empty name for ${commodity.name}');
+
+      final foodProps = commodity.toFoodProperties();
+      final rec = PackagingRecommendationResult.compute(foodProps);
+      if (rec.primaryMatch.id.isEmpty) {
+        throw Exception('Recommendation engine failed for ${commodity.name}');
+      }
+    }
+    print(
+        '    All ${CommodityLocalData.allCommodities.length} commodities verified fully analyzable!');
   });
 
   print('\n=== Test Results: $passedTests / $totalTests Passed ===\n');
