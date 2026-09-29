@@ -15,19 +15,35 @@ import 'widgets/quick_metrics_strip.dart';
 import 'widgets/recent_analysis_card.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final int initialNavIndex;
+
+  const HomeScreen({
+    super.key,
+    this.initialNavIndex = 0,
+  });
+
+  /// Global notifier to allow child/nested flows to programmatically switch back to Home tab (index 0)
+  static final ValueNotifier<int> activeTabNotifier = ValueNotifier<int>(0);
+
+  /// Helper to cleanly activate the Home tab across all app contexts
+  static void switchToHomeTab() {
+    activeTabNotifier.value = 0;
+  }
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentNavIndex = 0;
+  late int _currentNavIndex;
   final HistoryRepository _historyRepository = HistoryRepository();
 
   @override
   void initState() {
     super.initState();
+    _currentNavIndex = widget.initialNavIndex;
+    HomeScreen.activeTabNotifier.value = widget.initialNavIndex;
+    HomeScreen.activeTabNotifier.addListener(_onTabNotifierChanged);
     _historyRepository.historyNotifier.addListener(_onHistoryChanged);
     // Initial fetch of user history from Supabase
     _historyRepository.fetchUserHistory().catchError((_) => <AnalysisHistoryItem>[]);
@@ -35,8 +51,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
+    HomeScreen.activeTabNotifier.removeListener(_onTabNotifierChanged);
     _historyRepository.historyNotifier.removeListener(_onHistoryChanged);
     super.dispose();
+  }
+
+  void _onTabNotifierChanged() {
+    if (mounted && _currentNavIndex != HomeScreen.activeTabNotifier.value) {
+      setState(() {
+        _currentNavIndex = HomeScreen.activeTabNotifier.value;
+      });
+    }
   }
 
   void _onHistoryChanged() {
@@ -512,6 +537,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return InkWell(
       onTap: () {
         setState(() => _currentNavIndex = index);
+        HomeScreen.activeTabNotifier.value = index;
       },
       borderRadius: BorderRadius.circular(999),
       child: AnimatedContainer(

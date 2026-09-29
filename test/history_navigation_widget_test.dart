@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:packsense/core/theme/app_theme.dart';
 import 'package:packsense/data/models/analysis_history_item.dart';
+import 'package:packsense/data/models/food_properties.dart';
+import 'package:packsense/data/models/recommendation.dart';
 import 'package:packsense/data/repositories/history_repository.dart';
 import 'package:packsense/presentation/history/history_detail_screen.dart';
 import 'package:packsense/presentation/home/home_screen.dart';
+import 'package:packsense/presentation/recommendation_flow/step4_recommendation_result_screen.dart';
 
 void main() {
   group('PackSense History Navigation & Widget Tests', () {
@@ -129,6 +132,73 @@ void main() {
       expect(find.text('Corrugated Box with Ethylene Scavenger'), findsOneWidget);
       expect(find.text('Moisture Content'), findsOneWidget);
       expect(find.text('82.0%'), findsOneWidget);
+
+      // Verify "← Home" button is present at top-left
+      final homeButton = find.byKey(const Key('history_detail_back_to_home_button'));
+      expect(homeButton, findsOneWidget);
+      expect(find.descendant(of: homeButton, matching: find.text('Home')), findsOneWidget);
+      expect(find.descendant(of: homeButton, matching: find.byIcon(Icons.arrow_back)), findsOneWidget);
+
+      // Tap "← Home" button
+      await tester.tap(homeButton);
+      await tester.pumpAndSettle();
+
+      // Verify we returned directly to HomeScreen and Home tab is active
+      expect(find.byType(HomeScreen), findsOneWidget);
+      expect(find.text('Smarter Packaging. Better Food.'), findsOneWidget);
+      expect(find.text('Explore Packaging Materials'), findsOneWidget);
+    });
+
+    testWidgets('4. Step4RecommendationResultScreen renders top-left "← Home" button and navigates to Home',
+        (tester) async {
+      tester.view.physicalSize = const Size(800, 1200);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() => tester.view.resetPhysicalSize());
+
+      final properties = FoodProperties.estimateForCommodity('Tomato');
+      final recommendation = PackagingRecommendationResult.compute(properties);
+
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: AppTheme.lightTheme,
+          home: const HomeScreen(),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // Push Step4RecommendationResultScreen to simulate analysis completion
+      final BuildContext context = tester.element(find.byType(HomeScreen));
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => Step4RecommendationResultScreen(
+            recommendation: recommendation,
+            foodProperties: properties,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // Verify Step4 screen is displayed
+      expect(find.byType(Step4RecommendationResultScreen), findsOneWidget);
+      expect(find.text('PackSense'), findsOneWidget);
+      expect(find.byIcon(Icons.share), findsWidgets);
+      expect(find.byIcon(Icons.help_outline), findsOneWidget);
+
+      // Verify "← Home" button is present at top-left
+      final homeButton = find.byKey(const Key('back_to_home_button'));
+      expect(homeButton, findsOneWidget);
+      expect(find.descendant(of: homeButton, matching: find.text('Home')), findsOneWidget);
+      expect(find.descendant(of: homeButton, matching: find.byIcon(Icons.arrow_back)), findsOneWidget);
+
+      // Click "← Home"
+      await tester.tap(homeButton);
+      await tester.pumpAndSettle();
+
+      // Verify it returned directly to HomeScreen on the Home tab
+      expect(find.byType(HomeScreen), findsOneWidget);
+      expect(find.byType(Step4RecommendationResultScreen), findsNothing);
+      expect(find.text('Smarter Packaging. Better Food.'), findsOneWidget);
+      expect(find.text('Explore Packaging Materials'), findsOneWidget);
     });
   });
 }

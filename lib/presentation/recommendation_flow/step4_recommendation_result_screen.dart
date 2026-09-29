@@ -10,6 +10,7 @@ import '../../data/models/recommendation.dart';
 import '../../data/models/food_properties.dart';
 import '../../data/repositories/history_repository.dart';
 import '../../data/repositories/packaging_repository.dart';
+import '../home/home_screen.dart';
 import '../materials/material_details_screen.dart';
 
 class Step4RecommendationResultScreen extends StatefulWidget {
@@ -172,6 +173,68 @@ class _Step4RecommendationResultScreenState
     );
   }
 
+  void _navigateToHome(BuildContext context) {
+    HomeScreen.switchToHomeTab();
+    if (Navigator.of(context).canPop()) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    } else {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+        (route) => false,
+      );
+    }
+  }
+
+  Widget _buildHomeBackButton(BuildContext context) {
+    return Tooltip(
+      message: 'Back to Home',
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          key: const Key('back_to_home_button'),
+          onTap: () => _navigateToHome(context),
+          borderRadius: BorderRadius.circular(999),
+          hoverColor: AppColors.surfaceContainerHigh.withValues(alpha: 0.5),
+          splashColor: AppColors.secondary.withValues(alpha: 0.12),
+          highlightColor: AppColors.surfaceContainerHigh.withValues(alpha: 0.3),
+          child: Container(
+            constraints: const BoxConstraints(minHeight: 38, minWidth: 44),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: AppColors.surfaceContainerLow,
+              borderRadius: BorderRadius.circular(999),
+              border: Border.all(
+                color: AppColors.structuralBorder,
+                width: 1,
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.arrow_back,
+                  size: 16,
+                  color: AppColors.primary,
+                ),
+                const SizedBox(width: 5),
+                Text(
+                  'Home',
+                  style: AppTypography.labelLg.copyWith(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                    letterSpacing: -0.1,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final rec = widget.recommendation;
@@ -194,15 +257,7 @@ class _Step4RecommendationResultScreenState
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    icon:
-                        const Icon(Icons.arrow_back, color: AppColors.primary),
-                    onPressed: () => Navigator.maybePop(context),
-                    padding: EdgeInsets.zero,
-                    constraints:
-                        const BoxConstraints(minWidth: 40, minHeight: 40),
-                    splashRadius: 24,
-                  ),
+                  _buildHomeBackButton(context),
                   Row(
                     children: [
                       Container(
