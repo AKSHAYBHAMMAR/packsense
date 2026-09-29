@@ -3,17 +3,34 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/custom_card.dart';
 import '../../../core/widgets/epistemic_tag.dart';
+import '../../../data/models/analysis_history_item.dart';
 import '../../../data/repositories/packaging_repository.dart';
 
 class RecentAnalysisCard extends StatelessWidget {
-  final RecentAnalysisItem item;
+  final RecentAnalysisItem? item;
+  final AnalysisHistoryItem? historyItem;
   final VoidCallback? onTap;
 
   const RecentAnalysisCard({
     super.key,
-    required this.item,
+    required RecentAnalysisItem this.item,
     this.onTap,
-  });
+  }) : historyItem = null;
+
+  const RecentAnalysisCard.fromHistory({
+    super.key,
+    required AnalysisHistoryItem this.historyItem,
+    this.onTap,
+  }) : item = null;
+
+  String get _foodName => item?.foodName ?? historyItem?.foodName ?? '';
+  String get _foodEmoji => item?.foodEmoji ?? historyItem?.foodEmoji ?? '📦';
+  String get _timeAgo => item?.timeAgo ?? historyItem?.timeAgo ?? '';
+  String get _materialName =>
+      item?.materialName ?? historyItem?.materialName ?? '';
+  String get _specsSummary =>
+      item?.specsSummary ?? historyItem?.specsSummary ?? '';
+  bool get _isMeasured => item?.isMeasured ?? historyItem?.isMeasured ?? false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +53,7 @@ class RecentAnalysisCard extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    item.foodEmoji,
+                    _foodEmoji,
                     style: const TextStyle(fontSize: 24),
                   ),
                 ),
@@ -48,16 +65,20 @@ class RecentAnalysisCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          item.foodName,
-                          style: AppTypography.titleMd.copyWith(
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.w600,
+                        Flexible(
+                          child: Text(
+                            _foodName,
+                            style: AppTypography.titleMd.copyWith(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         const SizedBox(width: 6),
                         Text(
-                          '• ${item.timeAgo}',
+                          '• $_timeAgo',
                           style: AppTypography.bodySm.copyWith(
                             color: AppColors.onSurfaceVariant,
                             fontSize: 11,
@@ -67,7 +88,7 @@ class RecentAnalysisCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      item.materialName,
+                      _materialName,
                       style: AppTypography.bodySm.copyWith(
                         color: AppColors.onSurface,
                         fontWeight: FontWeight.w500,
@@ -77,7 +98,7 @@ class RecentAnalysisCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      item.specsSummary,
+                      _specsSummary,
                       style: AppTypography.labelSm.copyWith(
                         color: AppColors.onSurfaceVariant,
                         fontSize: 11,
@@ -102,7 +123,7 @@ class RecentAnalysisCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                item.isMeasured
+                _isMeasured
                     ? const EpistemicTag.measured()
                     : const EpistemicTag.aiEstimate(),
                 Row(

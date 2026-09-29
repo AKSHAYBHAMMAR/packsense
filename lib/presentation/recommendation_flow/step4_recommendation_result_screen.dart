@@ -7,15 +7,19 @@ import '../../core/widgets/epistemic_tag.dart';
 import '../../core/widgets/packsense_button.dart';
 import '../../data/models/packaging_material.dart';
 import '../../data/models/recommendation.dart';
+import '../../data/models/food_properties.dart';
+import '../../data/repositories/history_repository.dart';
 import '../../data/repositories/packaging_repository.dart';
 import '../materials/material_details_screen.dart';
 
 class Step4RecommendationResultScreen extends StatefulWidget {
   final PackagingRecommendationResult recommendation;
+  final FoodProperties? foodProperties;
 
   const Step4RecommendationResultScreen({
     super.key,
     required this.recommendation,
+    this.foodProperties,
   });
 
   @override
@@ -26,34 +30,91 @@ class Step4RecommendationResultScreen extends StatefulWidget {
 class _Step4RecommendationResultScreenState
     extends State<Step4RecommendationResultScreen> {
   final PackagingRepository _repository = PackagingRepository();
+  final HistoryRepository _historyRepository = HistoryRepository();
   bool _isSaved = false;
+  bool _isSaving = false;
 
-  void _saveToHistory() {
-    setState(() => _isSaved = true);
+  @override
+  void initState() {
+    super.initState();
+    // Persist complete analysis to Supabase after successful recommendation display
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _persistRecommendationAutomatically();
+    });
+  }
+
+  Future<void> _persistRecommendationAutomatically() async {
+    try {
+      await _historyRepository.saveAnalysis(
+        recommendation: widget.recommendation,
+        properties: widget.foodProperties,
+      );
+      if (mounted) {
+        setState(() => _isSaved = true);
+      }
+    } catch (e, st) {
+      debugPrint('[PackSense] Auto-persist to Supabase logged: $e\n$st');
+      // Do NOT break the recommendation result if save fails.
+    }
+  }
+
+  Future<void> _saveToHistory() async {
+    setState(() => _isSaving = true);
     final rec = widget.recommendation;
-    _repository.addAnalysis(
-      RecentAnalysisItem(
-        id: 'analysis_${DateTime.now().millisecondsSinceEpoch}',
-        foodName: rec.foodName,
-        foodEmoji: rec.foodEmoji,
-        timeAgo: 'Just now',
-        materialName: rec.primaryMatch.name,
-        specsSummary:
-            'OTR: ${rec.primaryMatch.otrSpec} • Shelf-life: ${rec.targetShelfLife}',
-        isMeasured: rec.basedOnMeasuredData,
-      ),
-    );
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: AppColors.primaryContainer,
-        content: Text(
-          'Recommendation for ${rec.foodName} saved to History.',
-          style: AppTypography.titleMd.copyWith(color: Colors.white),
+    try {
+      await _historyRepository.saveAnalysis(
+        recommendation: rec,
+        properties: widget.foodProperties,
+      );
+
+      // Also add to packaging repository session list for backwards-compatibility
+      _repository.addAnalysis(
+        RecentAnalysisItem(
+          id: 'analysis_${DateTime.now().millisecondsSinceEpoch}',
+          foodName: rec.foodName,
+          foodEmoji: rec.foodEmoji,
+          timeAgo: 'Just now',
+          materialName: rec.primaryMatch.name,
+          specsSummary:
+              'OTR: ${rec.primaryMatch.otrSpec} • Shelf-life: ${rec.targetShelfLife}',
+          isMeasured: rec.basedOnMeasuredData,
         ),
-        duration: const Duration(seconds: 2),
-      ),
-    );
+      );
+
+      if (mounted) {
+        setState(() {
+          _isSaved = true;
+          _isSaving = false;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: AppColors.primaryContainer,
+            content: Text(
+              'Recommendation for ${rec.foodName} saved to History.',
+              style: AppTypography.titleMd.copyWith(color: Colors.white),
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e, st) {
+      debugPrint('[PackSense] Error saving history: $e\n$st');
+      if (mounted) {
+        setState(() => _isSaving = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red[800],
+            content: Text(
+              'Could not save to Supabase: $e',
+              style: AppTypography.titleMd.copyWith(color: Colors.white),
+            ),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    }
   }
 
   void _exportPdfReport() {
@@ -808,10 +869,12 @@ class _Step4RecommendationResultScreenState
           Expanded(
             flex: 2,
             child: PackSenseButton(
-              label: _isSaved ? 'Saved' : 'Save to History',
+              label: _isSaved
+                  ? 'Saved'
+                  : (_isSaving ? 'Saving...' : 'Save to History'),
               icon: _isSaved ? Icons.bookmark : Icons.bookmark_border,
               variant: ButtonVariant.ghost,
-              onPressed: _isSaved ? null : _saveToHistory,
+              onPressed: (_isSaved || _isSaving) ? null : _saveToHistory,
             ),
           ),
           const SizedBox(width: 12),

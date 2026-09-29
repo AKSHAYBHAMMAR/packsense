@@ -51,7 +51,10 @@ class _Step2DataChoiceScreenState extends State<Step2DataChoiceScreen> {
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => Step4RecommendationResultScreen(recommendation: result),
+        builder: (_) => Step4RecommendationResultScreen(
+          recommendation: result,
+          foodProperties: estimatedProps,
+        ),
       ),
     );
   }

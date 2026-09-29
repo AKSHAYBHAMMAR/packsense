@@ -28,36 +28,8 @@ class PackagingRepository {
   factory PackagingRepository() => _instance;
   PackagingRepository._internal();
 
-  /// Recent items shown on Home Screen matching Stitch design
-  final List<RecentAnalysisItem> _recentAnalyses = [
-    const RecentAnalysisItem(
-      id: 'recent_tomato',
-      foodName: 'Tomato',
-      foodEmoji: '🍅',
-      timeAgo: '2 hours ago',
-      materialName: 'Breathable Micro-perforated Film',
-      specsSummary: 'OTR: 1,850 cc/m² • Target RH: 90%',
-      isMeasured: true,
-    ),
-    const RecentAnalysisItem(
-      id: 'recent_potato',
-      foodName: 'Potato',
-      foodEmoji: '🥔',
-      timeAgo: 'Yesterday',
-      materialName: 'Jute / Ventilated Kraft Paper',
-      specsSummary: 'Light Shielding: 99.2% • Prevents Solanine',
-      isMeasured: false,
-    ),
-    const RecentAnalysisItem(
-      id: 'recent_mango',
-      foodName: 'Mango',
-      foodEmoji: '🥭',
-      timeAgo: '3 days ago',
-      materialName: 'Corrugated Box with Ethylene Scavenger',
-      specsSummary: 'Climacteric Delay: +6 Days Ambient Shelf Life',
-      isMeasured: true,
-    ),
-  ];
+  /// Dynamic recent items populated strictly from real completed analyses
+  final List<RecentAnalysisItem> _recentAnalyses = [];
 
   List<RecentAnalysisItem> getRecentAnalyses() =>
       List.unmodifiable(_recentAnalyses);

@@ -3,11 +3,13 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/widgets/app_top_bar.dart';
 import '../../core/widgets/packsense_button.dart';
-import '../../data/models/food_properties.dart';
-import '../../data/repositories/packaging_repository.dart';
+import '../../data/models/analysis_history_item.dart';
+import '../../data/repositories/history_repository.dart';
+import '../history/history_detail_screen.dart';
+import '../history/history_screen.dart';
 import '../materials/all_materials_screen.dart';
+import '../profile/profile_screen.dart';
 import '../recommendation_flow/step1_food_selection_screen.dart';
-import '../recommendation_flow/step4_recommendation_result_screen.dart';
 import 'widgets/material_category_card.dart';
 import 'widgets/quick_metrics_strip.dart';
 import 'widgets/recent_analysis_card.dart';
@@ -21,14 +23,42 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentNavIndex = 0;
-  final PackagingRepository _repository = PackagingRepository();
+  final HistoryRepository _historyRepository = HistoryRepository();
 
-  void _navigateToRecommendationFlow() {
-    Navigator.of(context).push(
+  @override
+  void initState() {
+    super.initState();
+    _historyRepository.historyNotifier.addListener(_onHistoryChanged);
+    // Initial fetch of user history from Supabase
+    _historyRepository.fetchUserHistory().catchError((_) => <AnalysisHistoryItem>[]);
+  }
+
+  @override
+  void dispose() {
+    _historyRepository.historyNotifier.removeListener(_onHistoryChanged);
+    super.dispose();
+  }
+
+  void _onHistoryChanged() {
+    if (mounted) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
+  }
+
+  Future<void> _navigateToRecommendationFlow() async {
+    await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => const Step1FoodSelectionScreen(),
       ),
     );
+    // Refresh when returning from recommendation flow
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void _navigateToMaterials() {
@@ -39,15 +69,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _openRecentDetail(RecentAnalysisItem item) {
-    final properties =
-        FoodProperties.estimateForCommodity(item.foodName).copyWith(
-      isMeasured: item.isMeasured,
-    );
-    final result = _repository.analyzePackaging(properties);
+  void _openRecentDetail(AnalysisHistoryItem item) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => Step4RecommendationResultScreen(recommendation: result),
+        builder: (_) => HistoryDetailScreen(item: item),
       ),
     );
   }
@@ -56,42 +81,67 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: const AppTopBar(
+      appBar: AppTopBar(
         title: 'PackSense',
-        subtitle: 'Smarter Packaging. Better Food.',
+        subtitle: _currentNavIndex == 1
+            ? 'Analysis History & Records'
+            : (_currentNavIndex == 2
+                ? 'User Profile & Settings'
+                : 'Smarter Packaging. Better Food.'),
       ),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 500),
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Hero Section Card
-                _buildHeroCard(),
-                const SizedBox(height: 20),
-
-                // Quick Metrics Strip
-                const QuickMetricsStrip(),
-                const SizedBox(height: 24),
-
-                // Explore Packaging Materials Section
-                _buildExploreMaterialsSection(),
-                const SizedBox(height: 24),
-
-                // Recent Analysis Section
-                _buildRecentAnalysisSection(),
-                const SizedBox(height: 20),
-
-                // Pro Tip Banner
-                _buildProTipBanner(),
-              ],
-            ),
-          ),
+          child: _buildCurrentTab(),
         ),
       ),
       bottomNavigationBar: _buildBottomNav(),
+    );
+  }
+
+  Widget _buildCurrentTab() {
+    switch (_currentNavIndex) {
+      case 1:
+        return HistoryScreen(
+          onStartAnalysis: _navigateToRecommendationFlow,
+          isTabMode: true,
+        );
+      case 2:
+        return ProfileScreen(
+          onNavigateHome: () => setState(() => _currentNavIndex = 0),
+        );
+      case 0:
+      default:
+        return _buildHomeContent();
+    }
+  }
+
+  Widget _buildHomeContent() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Hero Section Card
+          _buildHeroCard(),
+          const SizedBox(height: 20),
+
+          // Quick Metrics Strip
+          const QuickMetricsStrip(),
+          const SizedBox(height: 24),
+
+          // Explore Packaging Materials Section
+          _buildExploreMaterialsSection(),
+          const SizedBox(height: 24),
+
+          // Recent Analysis Section (Real Database Records)
+          _buildRecentAnalysisSection(),
+          const SizedBox(height: 20),
+
+          // Pro Tip Banner
+          _buildProTipBanner(),
+        ],
+      ),
     );
   }
 
@@ -190,20 +240,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 top: BorderSide(color: Color(0x1FE3EAE1), width: 1),
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildFlowStep('Home', isActive: true),
-                const Icon(Icons.arrow_forward,
-                    size: 14, color: AppColors.outlineVariant),
-                _buildFlowStep('Food Details'),
-                const Icon(Icons.arrow_forward,
-                    size: 14, color: AppColors.outlineVariant),
-                _buildFlowStep('Recommendation'),
-                const Icon(Icons.arrow_forward,
-                    size: 14, color: AppColors.outlineVariant),
-                _buildFlowStep('Compare'),
-              ],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildFlowStep('Home', isActive: true),
+                  const SizedBox(width: 8),
+                  const Icon(Icons.arrow_forward,
+                      size: 14, color: AppColors.outlineVariant),
+                  const SizedBox(width: 8),
+                  _buildFlowStep('Food Details'),
+                  const SizedBox(width: 8),
+                  const Icon(Icons.arrow_forward,
+                      size: 14, color: AppColors.outlineVariant),
+                  const SizedBox(width: 8),
+                  _buildFlowStep('Recommendation'),
+                  const SizedBox(width: 8),
+                  const Icon(Icons.arrow_forward,
+                      size: 14, color: AppColors.outlineVariant),
+                  const SizedBox(width: 8),
+                  _buildFlowStep('Compare'),
+                ],
+              ),
             ),
           ),
         ],
@@ -243,10 +302,14 @@ class _HomeScreenState extends State<HomeScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Explore Packaging Materials',
-              style:
-                  AppTypography.titleLg.copyWith(fontWeight: FontWeight.w700),
+            Expanded(
+              child: Text(
+                'Explore Packaging Materials',
+                style:
+                    AppTypography.titleLg.copyWith(fontWeight: FontWeight.w700),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             TextButton(
               onPressed: _navigateToMaterials,
@@ -274,7 +337,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildRecentAnalysisSection() {
-    final recentItems = _repository.getRecentAnalyses();
+    final recentItems = _historyRepository.getRecentAnalyses(3);
+
     return Column(
       children: [
         Row(
@@ -287,9 +351,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             TextButton(
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Showing all stored analyses.')),
-                );
+                setState(() => _currentNavIndex = 1);
               },
               style: TextButton.styleFrom(
                 padding: EdgeInsets.zero,
@@ -307,19 +369,62 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         const SizedBox(height: 12),
-        ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: recentItems.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 12),
-          itemBuilder: (context, index) {
-            final item = recentItems[index];
-            return RecentAnalysisCard(
-              item: item,
-              onTap: () => _openRecentDetail(item),
-            );
-          },
-        ),
+        if (recentItems.isEmpty)
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: AppColors.surfaceContainerLowest,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.structuralBorder, width: 1),
+            ),
+            child: Column(
+              children: [
+                const Icon(
+                  Icons.history,
+                  size: 32,
+                  color: AppColors.onSurfaceVariant,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'No recent analyses yet',
+                  style: AppTypography.titleMd.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primary,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Run an analysis to see your packaging recommendations saved here.',
+                  textAlign: TextAlign.center,
+                  style: AppTypography.bodySm.copyWith(
+                    color: AppColors.onSurfaceVariant,
+                    fontSize: 12,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                PackSenseButton.secondary(
+                  label: 'Start Analysis',
+                  icon: Icons.auto_awesome,
+                  onPressed: _navigateToRecommendationFlow,
+                ),
+              ],
+            ),
+          )
+        else
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: recentItems.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              final item = recentItems[index];
+              return RecentAnalysisCard.fromHistory(
+                historyItem: item,
+                onTap: () => _openRecentDetail(item),
+              );
+            },
+          ),
       ],
     );
   }
@@ -407,14 +512,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return InkWell(
       onTap: () {
         setState(() => _currentNavIndex = index);
-        if (index != 0) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('$label tab clicked'),
-              duration: const Duration(seconds: 1),
-            ),
-          );
-        }
       },
       borderRadius: BorderRadius.circular(999),
       child: AnimatedContainer(
@@ -440,8 +537,8 @@ class _HomeScreenState extends State<HomeScreen> {
               style: AppTypography.labelSm.copyWith(
                 fontSize: 11,
                 color: isSelected
-                    ? AppColors.onSecondaryContainer
-                    : AppColors.onSurfaceVariant,
+                  ? AppColors.onSecondaryContainer
+                  : AppColors.onSurfaceVariant,
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
               ),
             ),

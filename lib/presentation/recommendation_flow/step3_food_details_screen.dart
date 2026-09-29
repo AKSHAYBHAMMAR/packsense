@@ -102,7 +102,10 @@ class _Step3FoodDetailsScreenState extends State<Step3FoodDetailsScreen> {
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => Step4RecommendationResultScreen(recommendation: result),
+        builder: (_) => Step4RecommendationResultScreen(
+          recommendation: result,
+          foodProperties: updatedProperties,
+        ),
       ),
     );
   }

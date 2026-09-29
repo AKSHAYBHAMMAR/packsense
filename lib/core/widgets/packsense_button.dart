@@ -111,36 +111,43 @@ class PackSenseButton extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(999),
           onTap: isLoading ? null : onPressed,
-          child: Center(
-            child: isLoading
-                ? SizedBox(
-                    width: 22,
-                    height: 22,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.2,
-                      valueColor: AlwaysStoppedAnimation<Color>(textColor),
-                    ),
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (iconWidget != null) ...[
-                        iconWidget!,
-                        const SizedBox(width: 8),
-                      ] else if (icon != null) ...[
-                        Icon(icon, size: 20, color: textColor),
-                        const SizedBox(width: 8),
-                      ],
-                      Text(
-                        label,
-                        style: AppTypography.titleMd.copyWith(
-                          color: textColor,
-                          fontWeight: FontWeight.w600,
-                        ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Center(
+              child: isLoading
+                  ? SizedBox(
+                      width: 22,
+                      height: 22,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.2,
+                        valueColor: AlwaysStoppedAnimation<Color>(textColor),
                       ),
-                    ],
-                  ),
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (iconWidget != null) ...[
+                          iconWidget!,
+                          const SizedBox(width: 8),
+                        ] else if (icon != null) ...[
+                          Icon(icon, size: 20, color: textColor),
+                          const SizedBox(width: 8),
+                        ],
+                        Flexible(
+                          child: Text(
+                            label,
+                            style: AppTypography.titleMd.copyWith(
+                              color: textColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
           ),
         ),
       ),
