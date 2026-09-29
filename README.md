@@ -14,8 +14,8 @@ PackSense helps food producers, commercial kitchens, and packaging engineers det
 
 - **Frontend:** Flutter / Dart 
 - **UI/UX Source of Truth:** Google Stitch Design Specifications (Plus Jakarta Sans, Epistemic status cues, 52px safe touch targets)
-- **Backend (Future):** FastAPI
-- **ML Engine (Future):** Python + Scikit-learn
+- **Backend:** FastAPI
+- **ML Engine :** Python + Scikit-learn
 - **Database & Auth:** Supabase
 
 ## Project Structure
