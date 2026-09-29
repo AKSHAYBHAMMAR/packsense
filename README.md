@@ -12,7 +12,7 @@ PackSense helps food producers, commercial kitchens, and packaging engineers det
 
 ## Technology Stack
 
-- **Frontend:** Flutter / Dart (Material 3 with custom organic bio-tech design system)
+- **Frontend:** Flutter / Dart 
 - **UI/UX Source of Truth:** Google Stitch Design Specifications (Plus Jakarta Sans, Epistemic status cues, 52px safe touch targets)
 - **Backend (Future):** FastAPI
 - **ML Engine (Future):** Python + Scikit-learn
