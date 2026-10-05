@@ -875,26 +875,33 @@ class _Step4RecommendationResultScreenState
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: 6,
-                              height: 6,
-                              decoration: const BoxDecoration(
-                                color: AppColors.secondary,
-                                shape: BoxShape.circle,
+                        Flexible(
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 6,
+                                height: 6,
+                                decoration: const BoxDecoration(
+                                  color: AppColors.secondary,
+                                  shape: BoxShape.circle,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              alt.ecoDetail,
-                              style: AppTypography.labelSm.copyWith(
-                                fontSize: 11,
-                                color: AppColors.outline,
+                              const SizedBox(width: 6),
+                              Expanded(
+                                child: Text(
+                                  alt.ecoDetail,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTypography.labelSm.copyWith(
+                                    fontSize: 11,
+                                    color: AppColors.outline,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
+                        const SizedBox(width: 10),
                         InkWell(
                           onTap: () => _openMaterialDetails(alt),
                           child: Text(
