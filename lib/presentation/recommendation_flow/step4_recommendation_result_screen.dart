@@ -349,45 +349,52 @@ class _Step4RecommendationResultScreenState
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
         color: AppColors.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.structuralBorder, width: 1),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            children: [
-              Text(rec.foodEmoji, style: const TextStyle(fontSize: 16)),
-              const SizedBox(width: 8),
-              Text(
-                rec.foodName,
-                style: AppTypography.labelMd.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
+          Expanded(
+            child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 6,
+              runSpacing: 4,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(rec.foodEmoji, style: const TextStyle(fontSize: 16)),
+                    const SizedBox(width: 8),
+                    Text(
+                      rec.foodName,
+                      style: AppTypography.labelMd.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(width: 6),
-              const Text('•',
-                  style: TextStyle(color: AppColors.outlineVariant)),
-              const SizedBox(width: 6),
-              Text(
-                rec.storageCondition,
-                style: AppTypography.labelSm.copyWith(
-                  color: AppColors.onSurfaceVariant,
+                const Text('•',
+                    style: TextStyle(color: AppColors.outlineVariant)),
+                Text(
+                  rec.storageCondition,
+                  style: AppTypography.labelSm.copyWith(
+                    color: AppColors.onSurfaceVariant,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 6),
-              const Text('•',
-                  style: TextStyle(color: AppColors.outlineVariant)),
-              const SizedBox(width: 6),
-              Text(
-                rec.targetShelfLife,
-                style: AppTypography.labelSm.copyWith(
-                  color: AppColors.onSurfaceVariant,
+                const Text('•',
+                    style: TextStyle(color: AppColors.outlineVariant)),
+                Text(
+                  rec.targetShelfLife,
+                  style: AppTypography.labelSm.copyWith(
+                    color: AppColors.onSurfaceVariant,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+          const SizedBox(width: 8),
           InkWell(
             onTap: () => Navigator.maybePop(context),
             child: const Icon(Icons.tune, size: 16, color: AppColors.secondary),
@@ -408,14 +415,19 @@ class _Step4RecommendationResultScreenState
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'RECOMMENDED PACKAGING',
-                style: AppTypography.labelMd.copyWith(
-                  color: AppColors.secondary,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.5,
+              Expanded(
+                child: Text(
+                  'RECOMMENDED PACKAGING',
+                  style: AppTypography.labelMd.copyWith(
+                    color: AppColors.secondary,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
+              const SizedBox(width: 8),
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -667,19 +679,25 @@ class _Step4RecommendationResultScreenState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Key Specifications',
-              style:
-                  AppTypography.titleLg.copyWith(fontWeight: FontWeight.w700),
-            ),
-            Text(
-              'Empirical Benchmarks',
-              style: AppTypography.labelSm.copyWith(color: AppColors.outline),
-            ),
-          ],
+        SizedBox(
+          width: double.infinity,
+          child: Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 4,
+            children: [
+              Text(
+                'Key Specifications',
+                style:
+                    AppTypography.titleLg.copyWith(fontWeight: FontWeight.w700),
+              ),
+              Text(
+                'Empirical Benchmarks',
+                style: AppTypography.labelSm.copyWith(color: AppColors.outline),
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 12),
         GridView.builder(
@@ -774,19 +792,25 @@ class _Step4RecommendationResultScreenState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Other Options',
-              style:
-                  AppTypography.titleLg.copyWith(fontWeight: FontWeight.w700),
-            ),
-            Text(
-              'Trade-off Analyses',
-              style: AppTypography.labelSm.copyWith(color: AppColors.outline),
-            ),
-          ],
+        SizedBox(
+          width: double.infinity,
+          child: Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 4,
+            children: [
+              Text(
+                'Other Options',
+                style:
+                    AppTypography.titleLg.copyWith(fontWeight: FontWeight.w700),
+              ),
+              Text(
+                'Trade-off Analyses',
+                style: AppTypography.labelSm.copyWith(color: AppColors.outline),
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 12),
         ListView.separated(
@@ -875,7 +899,7 @@ class _Step4RecommendationResultScreenState
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Flexible(
+                        Expanded(
                           child: Row(
                             children: [
                               Container(
@@ -890,18 +914,18 @@ class _Step4RecommendationResultScreenState
                               Expanded(
                                 child: Text(
                                   alt.ecoDetail,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
                                   style: AppTypography.labelSm.copyWith(
                                     fontSize: 11,
                                     color: AppColors.outline,
                                   ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(width: 8),
                         InkWell(
                           onTap: () => _openMaterialDetails(alt),
                           child: Text(
